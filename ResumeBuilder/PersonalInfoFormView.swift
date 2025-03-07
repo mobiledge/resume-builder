@@ -97,6 +97,7 @@ struct PersonalInfoFormView: View {
                 }
             }
         }
+        .padding()
         .navigationTitle("Personal Information")
         #if os(iOS)
         .toolbar {

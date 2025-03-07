@@ -27,5 +27,5 @@ struct ContentView: View {
 
 #Preview(traits: .sizeThatFitsLayout) {
     ContentView()
-        .frame(width: 800, height: 600)
+        .frame(width: 1200, height: 600)
 }

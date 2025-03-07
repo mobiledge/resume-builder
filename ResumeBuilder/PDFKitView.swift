@@ -8,7 +8,6 @@ struct PDFViewer: View {
 
     var body: some View {
         PDFKitRepresentedView(document: document)
-            .edgesIgnoringSafeArea(.all)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: {

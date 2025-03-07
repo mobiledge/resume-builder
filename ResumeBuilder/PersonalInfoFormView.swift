@@ -162,7 +162,6 @@ struct PersonalInfoFormView: View {
         return nil
     }
 
-    #if os(iOS) || os(macOS)
     private var profileImagePicker: some View {
         #if os(iOS)
         return Button("Select Photo") {
@@ -179,7 +178,6 @@ struct PersonalInfoFormView: View {
         .buttonStyle(.borderedProminent)
         #endif
     }
-    #endif
 
     // MARK: - Address Section
 
@@ -262,17 +260,3 @@ struct PersonalInfoFormView_Previews: PreviewProvider {
         }
     }
 }
-
-// MARK: - Platform-specific Extensions
-
-#if os(iOS) || os(tvOS)
-// Extension for UIKit image loading functionality
-extension PersonalInfoFormView {
-    // Implementation would go here for UIKit-specific image loading
-}
-#elseif os(macOS)
-// Extension for AppKit image loading functionality
-extension PersonalInfoFormView {
-    // Implementation would go here for AppKit-specific image loading
-}
-#endif

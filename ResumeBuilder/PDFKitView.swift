@@ -1,37 +1,58 @@
 import SwiftUI
+import UniformTypeIdentifiers
 import PDFKit
 
 struct PDFViewer: View {
     let document: PDFDocument
+    @State private var showingExportSheet = false
 
     var body: some View {
         PDFKitRepresentedView(document: document)
             .edgesIgnoringSafeArea(.all)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: {
+                        showingExportSheet = true
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+            }
+            .fileExporter(
+                isPresented: $showingExportSheet,
+                document: PDFExportDocument(document: document),
+                contentType: .pdf,
+                defaultFilename: "Resume"
+            ) { result in
+                // Handle export completion if needed
+            }
     }
 }
 
-extension PDFViewer {
-    init?(attributedString: NSAttributedString) {
-        guard let document = createPDFDocument(from: attributedString) else { return nil }
-        self.document = document
-    }
-}
+// macOS-specific FileDocument implementation
+struct PDFExportDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.pdf] }
 
-// Platform-specific view wrappers
-#if os(iOS)
-struct PDFKitRepresentedView: UIViewRepresentable {
     let document: PDFDocument
 
-    func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView()
-        pdfView.document = document
-        pdfView.autoScales = true
-        return pdfView
+    init(document: PDFDocument) {
+        self.document = document
     }
 
-    func updateUIView(_ pdfView: PDFView, context: Context) {}
+    init(configuration: ReadConfiguration) throws {
+        // This initializer is required but won't be used for export
+        self.document = PDFDocument()
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        guard let data = document.dataRepresentation() else {
+            throw CocoaError(.fileWriteUnknown)
+        }
+
+        return FileWrapper(regularFileWithContents: data)
+    }
 }
-#elseif os(macOS)
+
 struct PDFKitRepresentedView: NSViewRepresentable {
     let document: PDFDocument
 
@@ -44,7 +65,13 @@ struct PDFKitRepresentedView: NSViewRepresentable {
 
     func updateNSView(_ pdfView: PDFView, context: Context) {}
 }
-#endif
+
+extension PDFViewer {
+    init?(attributedString: NSAttributedString) {
+        guard let document = createPDFDocument(from: attributedString) else { return nil }
+        self.document = document
+    }
+}
 
 // Function to create a PDFDocument from NSAttributedString
 func createPDFDocument(from attributedString: NSAttributedString) -> PDFDocument? {
@@ -69,14 +96,10 @@ func createPDFDocument(from attributedString: NSAttributedString) -> PDFDocument
     return PDFDocument(data: pdfData as Data)
 }
 
-// Preview with platform-specific code
+// Preview
 struct PDFViewer_Previews: PreviewProvider {
     static var previews: some View {
-        #if os(iOS)
-        let sampleText = NSAttributedString(string: "Hello, this is a sample PDF document!", attributes: [.font: UIFont.systemFont(ofSize: 18)])
-        #elseif os(macOS)
         let sampleText = NSAttributedString(string: "Hello, this is a sample PDF document!", attributes: [.font: NSFont.systemFont(ofSize: 18)])
-        #endif
 
         if let pdfViewer = PDFViewer(attributedString: sampleText) {
             pdfViewer
@@ -86,20 +109,8 @@ struct PDFViewer_Previews: PreviewProvider {
     }
 }
 
-// Mock extension with platform-specific code
+// Mock data
 struct Mock {
-    #if os(iOS)
-    static var pdfDocument: PDFDocument = {
-        let pdfURL = Bundle.main.url(forResource: "sample", withExtension: "pdf")!
-        let document = PDFDocument(url: pdfURL)!
-        return document
-    }()
-
-    static var attributedString: NSAttributedString = {
-        let sampleText = NSAttributedString(string: "Hello, this is a sample PDF document!", attributes: [.font: UIFont.systemFont(ofSize: 18)])
-        return sampleText
-    }()
-    #elseif os(macOS)
     static var pdfDocument: PDFDocument = {
         let pdfURL = Bundle.main.url(forResource: "sample", withExtension: "pdf")!
         let document = PDFDocument(url: pdfURL)!
@@ -110,5 +121,4 @@ struct Mock {
         let sampleText = NSAttributedString(string: "Hello, this is a sample PDF document!", attributes: [.font: NSFont.systemFont(ofSize: 18)])
         return sampleText
     }()
-    #endif
 }

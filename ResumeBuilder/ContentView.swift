@@ -16,7 +16,7 @@ struct ContentView: View {
             Text("Sidebar")
                 .frame(minWidth: 200)
         } content: {
-            PersonalInfoFormView(personalInfo: $personalInfo)
+            PersonalInfoForm(personalInfo: $personalInfo)
                 .frame(minWidth: 350) // Set a minimum width for the content column
         } detail: {
             PDFViewer(attributedString: personalInfo.attributedString())

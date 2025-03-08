@@ -7,6 +7,31 @@
 
 import Foundation
 
+// MARK: - Personal Information
+public struct PersonalInfo: Codable {
+    public var name: String
+    public var title: String
+    public var city: String
+    public var state: String
+    public var country: String
+    public var email: String
+    public var phone: String
+    public var linkedIn: String?
+    public var github: String?
+
+    static var mock: PersonalInfo = PersonalInfo(
+        name: "John Doe",
+        title: "Software Developer",
+        city: "San Francisco",
+        state: "CA",
+        country: "USA",
+        email: "john.doe@example.com",
+        phone: "555-123-4567",
+        linkedIn: "linkedin.com/in/johndoe",
+        github: "github.com/johndoe"
+    )
+}
+
 // MARK: - Resume
 public struct Resume: Codable, Identifiable {
     public var id = UUID()
@@ -212,19 +237,14 @@ public struct Resume: Codable, Identifiable {
     // MARK: - Helper Extensions
     public static var example: Resume {
         let personalInfo = PersonalInfo(
-            firstName: "John",
-            lastName: "Doe",
+            name: "John Doe",
+            title: "Software Developer",
+            city: "San Francisco",
+            state: "CA",
+            country: "USA",
             email: "john.doe@example.com",
-            phone: "(123) 456-7890",
-            address: PersonalInfo.Address(
-                street: "123 Main St",
-                city: "San Francisco",
-                state: "CA",
-                zipCode: "94105",
-                country: "USA"
-            ),
+            phone: "555-123-4567",
             linkedIn: "linkedin.com/in/johndoe",
-            portfolio: "johndoe.com",
             github: "github.com/johndoe"
         )
 
@@ -319,49 +339,4 @@ public struct Resume: Codable, Identifiable {
     }
 }
 
-// MARK: - Personal Information
-public struct PersonalInfo: Codable {
-    public var firstName: String
-    public var lastName: String
-    public var email: String
-    public var phone: String
-    public var address: Address?
-    public var linkedIn: String?
-    public var portfolio: String?
-    public var github: String?
-    public var profilePicture: URL?
 
-    public var fullName: String {
-        return "\(firstName) \(lastName)"
-    }
-
-    public struct Address: Codable {
-        public var street: String
-        public var city: String
-        public var state: String
-        public var zipCode: String
-        public var country: String
-
-        public var formattedAddress: String {
-            return "\(street), \(city), \(state) \(zipCode), \(country)"
-        }
-    }
-
-    static var mock: PersonalInfo = PersonalInfo(
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
-        phone: "555-123-4567",
-        address: PersonalInfo.Address(
-            street: "123 Main St",
-            city: "San Francisco",
-            state: "CA",
-            zipCode: "94105",
-            country: "USA"
-        ),
-        linkedIn: "linkedin.com/in/johndoe",
-        portfolio: "johndoe.com",
-        github: "github.com/johndoe",
-        profilePicture: nil
-    )
-}

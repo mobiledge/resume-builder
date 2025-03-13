@@ -9,17 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State var personalInfo = PersonalInfo.mock
+    @State var state = AppState()
 
     var body: some View {
         NavigationSplitView {
             Text("Sidebar")
                 .frame(minWidth: 200)
         } content: {
-            PersonalInfoForm(personalInfo: $personalInfo)
-                .frame(minWidth: 350) // Set a minimum width for the content column
+            PersonalInfoForm(personalInfo: $state.personalInfo)
+                .frame(minWidth: 200)
         } detail: {
-            PDFViewer(attributedString: personalInfo.attributedString())
+            PDFViewer(document: state.pdfDocument)
                 .frame(minWidth: 400)
         }
     }

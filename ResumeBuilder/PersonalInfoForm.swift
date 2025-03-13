@@ -43,17 +43,11 @@ struct PersonalInfoForm: View {
                     .focused($focusedField, equals: .phone)
                     .textContentType(.telephoneNumber)
 
-                TextField("LinkedIn", text: Binding<String>(
-                    get: { personalInfo.linkedIn ?? "" },
-                    set: { personalInfo.linkedIn = $0.isEmpty ? nil : $0 }
-                ))
+                TextField("LinkedIn", text:  $personalInfo.linkedIn)
                 .focused($focusedField, equals: .linkedIn)
                 .textContentType(.URL)
 
-                TextField("GitHub", text: Binding<String>(
-                    get: { personalInfo.github ?? "" },
-                    set: { personalInfo.github = $0.isEmpty ? nil : $0 }
-                ))
+                TextField("GitHub", text: $personalInfo.github)
                 .focused($focusedField, equals: .github)
                 .textContentType(.URL)
             }

@@ -6,18 +6,42 @@
 //
 
 import Foundation
+import AppKit
 
 // MARK: - Personal Information
-public struct PersonalInfo: Codable {
-    public var name: String
-    public var title: String
-    public var city: String
-    public var state: String
-    public var country: String
-    public var email: String
-    public var phone: String
-    public var linkedIn: String?
-    public var github: String?
+@Observable class PersonalInfo: Codable {
+    var name: String = ""
+    var title: String = ""
+    var city: String = ""
+    var state: String = ""
+    var country: String = ""
+    var email: String = ""
+    var phone: String = ""
+    var linkedIn: String = ""
+    var github: String = ""
+
+    internal init(
+        name: String = "",
+        title: String = "",
+        city: String = "",
+        state: String = "",
+        country: String = "",
+        email: String = "",
+        phone: String = "",
+        linkedIn: String = "",
+        github: String = ""
+    ) {
+        self.name = name
+        self.title = title
+        self.city = city
+        self.state = state
+        self.country = country
+        self.email = email
+        self.phone = phone
+        self.linkedIn = linkedIn
+        self.github = github
+    }
+
 
     static var mock: PersonalInfo = PersonalInfo(
         name: "John Doe",
@@ -30,9 +54,71 @@ public struct PersonalInfo: Codable {
         linkedIn: "linkedin.com/in/johndoe",
         github: "github.com/johndoe"
     )
+
+    func attributedString() -> NSAttributedString {
+        let result = NSMutableAttributedString()
+
+        // Create centered paragraph style
+        let centerParagraphStyle = NSMutableParagraphStyle()
+        centerParagraphStyle.alignment = .center
+
+        // Name
+        let nameAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.preferredFont(forTextStyle: .headline),
+            .foregroundColor: NSColor.black,
+            .paragraphStyle: centerParagraphStyle
+        ]
+        result.append(NSAttributedString(string: name, attributes: nameAttributes))
+
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.preferredFont(forTextStyle: .subheadline),
+            .foregroundColor: NSColor.black,
+            .paragraphStyle: centerParagraphStyle
+        ]
+        result.append(NSAttributedString(string: "\n"))
+        result.append(NSAttributedString(string: title, attributes: titleAttributes))
+
+        // Contact Information
+        let contactAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.preferredFont(forTextStyle: .caption1),
+            .foregroundColor: NSColor.darkGray,
+            .paragraphStyle: centerParagraphStyle
+        ]
+
+        result.append(NSAttributedString(string: "\n"))
+        result.append(NSAttributedString(string: city, attributes: contactAttributes))
+        result.append(NSAttributedString(string: ", ", attributes: contactAttributes))
+        result.append(NSAttributedString(string: state, attributes: contactAttributes))
+        result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
+        result.append(NSAttributedString(string: email, attributes: contactAttributes))
+        result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
+        result.append(NSAttributedString(string: phone, attributes: contactAttributes))
+
+
+        // Online Profiles
+        let onlineProfilesAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.preferredFont(forTextStyle: .caption1), //NSFont.systemFont(ofSize: 13, weight: .regular),
+            .foregroundColor: NSColor.systemBlue,
+            .paragraphStyle: centerParagraphStyle
+        ]
+
+        if !linkedIn.isEmpty {
+            result.append(NSAttributedString(string: "\n", attributes: contactAttributes))
+            result.append(NSAttributedString(string: linkedIn, attributes: onlineProfilesAttributes))
+        }
+
+        if !github.isEmpty {
+            result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
+            result.append(NSAttributedString(string: github, attributes: onlineProfilesAttributes))
+        }
+
+        return result
+    }
 }
 
 // MARK: - Resume
+/*
 public struct Resume: Codable, Identifiable {
     public var id = UUID()
     public var personalInfo: PersonalInfo
@@ -340,3 +426,4 @@ public struct Resume: Codable, Identifiable {
 }
 
 
+*/

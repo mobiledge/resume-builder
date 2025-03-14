@@ -9,18 +9,25 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State var state = AppState()
+    @State var state = Resume()
 
     var body: some View {
         NavigationSplitView {
             Text("Sidebar")
                 .frame(minWidth: 200)
         } content: {
-            PersonalInfoForm(personalInfo: $state.personalInfo)
-                .frame(minWidth: 200)
+            ScrollView {
+                Form {
+                    PersonalInfoSection(personalInfo: $state.personalInfo)
+                    SummarySection(summary: $state.summary)
+                    WorkExperienceSection(workExperience: $state.workExp)
+                }
+                .padding()
+            }
+            .frame(minWidth: 480)
+
         } detail: {
             PDFViewer(document: state.pdfDocument)
-                .frame(minWidth: 400)
         }
     }
 }

@@ -24,7 +24,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .frame(minWidth: 480)
+            .frame(minWidth: 240)
 
         } detail: {
             PDFViewer(document: state.pdfDocument)

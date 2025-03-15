@@ -9,12 +9,23 @@ import Foundation
 import PDFKit
 
 @Observable class Resume {
-    var pdfDocument: PDFDocument {
-        PDFDocument(attributedString: personalInfo.attributedString()) ?? PDFDocument()
-    }
     var personalInfo = PersonalInfo.mock
     var summary = Summary.mock
     var workExp = WorkExperience.mock
+
+    var attributedString: NSAttributedString {
+        let result = NSMutableAttributedString()
+        result.append(personalInfo.attributedString)
+        result.append(NSAttributedString(string: "\n\n"))
+        result.append(summary.attributedString)
+        result.append(NSAttributedString(string: "\n\n"))
+        result.append(workExp.attributedString)
+        return result
+    }
+
+    var pdfDocument: PDFDocument {
+        PDFDocument(attributedString: attributedString) ?? PDFDocument()
+    }
 }
 
 // MARK: - Personal Information
@@ -64,36 +75,18 @@ import PDFKit
         github: "github.com/johndoe"
     )
 
-    func attributedString() -> NSAttributedString {
+    var attributedString: NSAttributedString {
         let result = NSMutableAttributedString()
 
-        // Create centered paragraph style
-        let centerParagraphStyle = NSMutableParagraphStyle()
-        centerParagraphStyle.alignment = .center
-
         // Name
-        let nameAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.preferredFont(forTextStyle: .headline),
-            .foregroundColor: NSColor.black,
-            .paragraphStyle: centerParagraphStyle
-        ]
-        result.append(NSAttributedString(string: name, attributes: nameAttributes))
+        result.append(NSAttributedString(string: name, attributes: attributes(style: .headline, alignment: .center)))
 
-
-        let titleAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.preferredFont(forTextStyle: .subheadline),
-            .foregroundColor: NSColor.black,
-            .paragraphStyle: centerParagraphStyle
-        ]
+        // Title
         result.append(NSAttributedString(string: "\n"))
-        result.append(NSAttributedString(string: title, attributes: titleAttributes))
+        result.append(NSAttributedString(string: title, attributes: attributes(style: .subheadline, alignment: .center)))
 
         // Contact Information
-        let contactAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.preferredFont(forTextStyle: .caption1),
-            .foregroundColor: NSColor.darkGray,
-            .paragraphStyle: centerParagraphStyle
-        ]
+        let contactAttributes = attributes(style: .caption1, color: NSColor.darkGray, alignment: .center)
 
         result.append(NSAttributedString(string: "\n"))
         result.append(NSAttributedString(string: city, attributes: contactAttributes))
@@ -104,13 +97,8 @@ import PDFKit
         result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
         result.append(NSAttributedString(string: phone, attributes: contactAttributes))
 
-
         // Online Profiles
-        let onlineProfilesAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.preferredFont(forTextStyle: .caption1), //NSFont.systemFont(ofSize: 13, weight: .regular),
-            .foregroundColor: NSColor.systemBlue,
-            .paragraphStyle: centerParagraphStyle
-        ]
+        let onlineProfilesAttributes = attributes(style: .caption1, color: NSColor.systemBlue, alignment: .center)
 
         if !linkedIn.isEmpty {
             result.append(NSAttributedString(string: "\n", attributes: contactAttributes))
@@ -137,17 +125,8 @@ import PDFKit
 
     static let mock = Summary(text:"Senior Software Developer with 10+ years of experience architecting scalable applications and leading high-performance engineering teams. Expertise in full-stack development, cloud infrastructure, and delivering enterprise solutions that drive business growth.")
 
-    func attributedString() -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .left
-
-        // Name
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.preferredFont(forTextStyle: .body),
-            .foregroundColor: NSColor.black,
-            .paragraphStyle: paragraphStyle
-        ]
-        return NSAttributedString(string: text, attributes: attributes)
+    var attributedString: NSAttributedString {
+        return NSAttributedString(string: text, attributes: attributes(style: .body))
     }
 }
 
@@ -191,58 +170,86 @@ import PDFKit
         return mockExperience
     }
 
-    func attributedString() -> NSAttributedString {
+    var attributedString: NSAttributedString {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM yyyy"
 
         let attributedString = NSMutableAttributedString()
 
-        // Company name - Bold
-        let companyAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.boldSystemFont(ofSize: 16)
-        ]
-        attributedString.append(NSAttributedString(string: companyName, attributes: companyAttributes))
 
-        // Position and location - Regular
-        let positionLocationAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 14, weight: .regular)
-        ]
-        attributedString.append(NSAttributedString(string: "\n\(position) - \(location)", attributes: positionLocationAttributes))
 
-        // Date range - Italic
-        let dateAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 12, weight: .regular),
-            .foregroundColor: NSColor.darkGray
-        ]
+        // Company name
+        attributedString.append(
+            NSAttributedString(
+                string: companyName,
+                attributes: attributes(style: .headline)
+            )
+        )
 
+        // Position and location
+        attributedString
+            .append(
+                NSAttributedString(
+                    string: "\n\(position) - \(location)",
+                    attributes: attributes(
+                        style: .subheadline,
+                        color: .secondaryLabelColor
+                    )
+                )
+            )
+
+        // Date range
         var dateString = ""
         if let start = startDate {
             dateString = dateFormatter.string(from: start)
-
             if isCurrentPosition {
                 dateString += " - Present"
             } else if let end = endDate {
                 dateString += " - " + dateFormatter.string(from: end)
             }
         }
+        attributedString.append(
+            NSAttributedString(
+                string: "\n\(dateString)",
+                attributes: attributes(
+                    style: .subheadline,
+                    color: .secondaryLabelColor
+                )
+            )
+        )
 
-        attributedString.append(NSAttributedString(string: "\n\(dateString)", attributes: dateAttributes))
 
-        // Description - Regular, smaller
-        let descriptionAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 12, weight: .regular),
-            .paragraphStyle: {
-                let style = NSMutableParagraphStyle()
-                style.paragraphSpacing = 4
-                style.lineSpacing = 2
-                return style
-            }()
-        ]
 
+        // Description
         if !description.isEmpty {
-            attributedString.append(NSAttributedString(string: "\n\n\(description)", attributes: descriptionAttributes))
+            attributedString.append(
+                NSAttributedString(
+                    string: "\n\(description)",
+                    attributes: attributes(style: .body)
+                )
+            )
         }
 
         return attributedString
     }
+}
+
+
+// MARK: -
+private func attributes(
+    style: NSFont.TextStyle = NSFont.TextStyle.body,
+    color: NSColor = NSColor.textColor,
+    alignment: NSTextAlignment = .left
+) -> [NSAttributedString.Key: Any] {
+
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.alignment = alignment
+
+    // Name
+    let attributes: [NSAttributedString.Key: Any] = [
+        .font: NSFont.preferredFont(forTextStyle: style),
+        .foregroundColor: color,
+        .paragraphStyle: paragraphStyle
+    ]
+    return attributes
 }

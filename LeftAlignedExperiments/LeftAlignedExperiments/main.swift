@@ -193,172 +193,8 @@ class HTMLToPDFConverter: NSObject, WKNavigationDelegate {
 
 // Command-line interface execution function
 func runConversion() {
-    // Get current date for the example HTML
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .medium
-    let formattedDate = dateFormatter.string(from: Date())
 
-    // Example HTML content
-//    let htmlString = """
-//<!DOCTYPE html>
-//<html>
-//<head>
-//<meta charset="UTF-8">
-//<title>My Awesome PDF Document (HTML)</title>
-//<style>
-//body {
-//    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-//    font-size: 12pt;
-//    margin: 72pt; /* Corresponds to 1-inch margin */
-//    line-height: 1.4;
-//    color: #000;
-//}
-//h1 {
-//    font-size: 24pt;
-//    font-weight: bold;
-//    text-align: center;
-//    color: #333; /* Dark Gray */
-//    margin-bottom: 20pt;
-//}
-//p { margin-bottom: 10pt; }
-//ul { margin-left: 20pt; margin-bottom: 10pt; }
-//li { margin-bottom: 5pt; }
-//.bold-blue { font-weight: bold; color: blue; }
-//table { width: 100%; border-collapse: collapse; margin-top: 15pt; }
-//td { padding: 2pt 0; }
-//td.label { text-align: left; }
-//td.value { text-align: right; }
-//.table-header { font-weight: bold; border-bottom: 1px solid #ccc; margin-bottom: 5pt; }
-//</style>
-//</head>
-//<body>
-//<h1>My Awesome PDF Document (HTML)</h1>
-//<p>
-//This is a sample document generated from a Swift command-line application
-//using an offscreen WKWebView to convert HTML to PDF.
-//</p>
-//<p>Features demonstrated:</p>
-//<ul>
-//<li>Different font sizes (via CSS)</li>
-//<li><span class="bold-blue">Bold text (and blue!)</span></li>
-//<li>Colors (via CSS)</li>
-//<li>Centered title alignment (via CSS)</li>
-//<li>Right alignment using HTML Table</li>
-//</ul>
-//<table>
-//<thead>
-//  <tr>
-//    <th class="label table-header">Item Description</th>
-//    <th class="value table-header">Price</th>
-//  </tr>
-//</thead>
-//<tbody>
-//  <tr><td class="label">Standard Widget</td><td class="value">$19.99</td></tr>
-//  <tr><td class="label">Premium Gadget</td><td class="value">$125.50</td></tr>
-//  <tr><td class="label">Service Fee</td><td class="value">$50.00</td></tr>
-//</tbody>
-//</table>
-//</body>
-//</html>
-//"""
-
-    let htmlString = """
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>My Awesome PDF Document (HTML)</title>
-<style>
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 12pt;
-        margin: 72pt; /* Corresponds to 1-inch margin */
-        line-height: 1.4;
-        color: #000;
-    }
-    h1 {
-        font-size: 24pt;
-        font-weight: bold;
-        text-align: center;
-        color: #333; /* Dark Gray */
-        margin-bottom: 20pt;
-    }
-    p { margin-bottom: 10pt; }
-    ul { margin-left: 20pt; margin-bottom: 10pt; }
-    li { margin-bottom: 5pt; }
-    .bold-blue { font-weight: bold; color: blue; }
-
-    /* --- Styles for Flexbox Layout --- */
-    .item-list {
-        margin-top: 15pt;
-        width: 100%;
-    }
-    .item-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 2pt 0;
-    }
-    .item-header {
-        font-weight: bold;
-        border-bottom: 1px solid #ccc;
-        margin-bottom: 5pt;
-    }
-    
-    /* --- Explicit text alignment within spans --- */
-    .item-description {
-        text-align: left; /* Explicitly align text to the left within this span */
-        /* Optional: Prevent shrinking if needed, though unlikely with space-between */
-        /* flex-shrink: 0; */ 
-    }
-    .item-price {
-        text-align: right; /* Explicitly align text to the right within this span */
-         /* Optional: Prevent shrinking if needed */
-        /* flex-shrink: 0; */
-        /* Optional: Give it a minimum width if wrapping is an issue */
-        /* min-width: 60px; */ /* Adjust as needed */
-    }
-
-</style>
-</head>
-<body>
-<h1>My Awesome PDF Document (HTML)</h1>
-<p>
-This is a sample document generated from a Swift command-line application
-using an offscreen WKWebView to convert HTML to PDF.
-</p>
-<p>Features demonstrated:</p>
-<ul>
-    <li>Different font sizes (via CSS)</li>
-    <li><span class="bold-blue">Bold text (and blue!)</span></li>
-    <li>Colors (via CSS)</li>
-    <li>Centered title alignment (via CSS)</li>
-    <li>Right alignment using CSS Flexbox with explicit span alignment</li> </ul>
-
-<div class="item-list">
-    <div class="item-row item-header">
-        <span class="item-description">Item Description</span>
-        <span class="item-price">Price</span>
-    </div>
-    <div class="item-row">
-        <span class="item-description">Standard Widget</span>
-        <span class="item-price">$19.99</span>
-    </div>
-    <div class="item-row">
-        <span class="item-description">Premium Gadget with a potentially longer name</span>
-        <span class="item-price">$125.50</span>
-    </div>
-    <div class="item-row">
-        <span class="item-description">Service Fee</span>
-        <span class="item-price">$50.00</span>
-    </div>
-</div>
-</body>
-</html>
-
-"""
-
-
+    let htmlString = Constant.htmlString
     let converter = HTMLToPDFConverter(timeout: 45.0) // Use a slightly longer timeout
     let semaphore = DispatchSemaphore(value: 0)
     var resultData: Data?
@@ -390,33 +226,32 @@ using an offscreen WKWebView to convert HTML to PDF.
         // Optional: Add a safety break if it runs too long (e.g., > converter.timeout + grace period)
     }
 
-    print("Semaphore signaled. Proceeding with file writing or error handling.")
 
-    // Check for errors and write the file
+
+    if let error = conversionError {
+        print("❌ An error occurred during conversion: \(error.localizedDescription)")
+        return
+    }
+    guard let pdfData = resultData else {
+        print("❌ Conversion finished without error, but no PDF data was returned.")
+        return
+    }
+    writeToFile(pdfData: pdfData)
+}
+
+func writeToFile(pdfData: Data) {
     do {
-        if let error = conversionError {
-            print("An error occurred during conversion.")
-            throw error // Propagate the error caught in the completion handler
-        }
+        let downloadsURL = try FileManager.default.url(for: .downloadsDirectory,
+                                                       in: .userDomainMask,
+                                                       appropriateFor: nil,
+                                                       create: true)
 
-        guard let pdfData = resultData else {
-            print("Conversion finished without error, but no PDF data was returned.")
-            throw ConversionError.noDataGenerated // Throw specific error if data is missing without error
-        }
-
-        print("Attempting to write PDF data to \(outputFilePath)...")
-        try pdfData.write(to: outputURL)
-        print("✅ Successfully generated PDF at: \(outputURL.path)")
-        exit(0) // Success exit code
-
+        let outputFileName = "output.pdf"
+        let downloadsOutputURL = downloadsURL.appendingPathComponent(outputFileName)
+        try pdfData.write(to: downloadsOutputURL)
+        print("✅ Successfully generated PDF at: \(downloadsOutputURL.path)")
     } catch {
-        // Print specific localized description if available, otherwise generic error
-        if let localizedError = error as? LocalizedError, let errorDescription = localizedError.errorDescription {
-             print("❌ Error: \(errorDescription)")
-        } else {
-             print("❌ An unexpected error occurred: \(error)")
-        }
-        exit(1) // Failure exit code
+        print("❌ Failed to writeToFile: \(error.localizedDescription)")
     }
 }
 

@@ -6,53 +6,46 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C6C9000B2D94BA9B00AAA767 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXBuildFile section */
+		C69DE0832D95D90400B0D45A /* Ink in Frameworks */ = {isa = PBXBuildFile; productRef = C69DE0822D95D90400B0D45A /* Ink */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C6C9000D2D94BA9B00AAA767 /* LeftAlignedExperiments */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LeftAlignedExperiments; sourceTree = BUILT_PRODUCTS_DIR; };
+		C69DE06F2D95D8D200B0D45A /* MarkdownToHTML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarkdownToHTML.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C6C9000F2D94BA9B00AAA767 /* LeftAlignedExperiments */ = {
+		C69DE0712D95D8D200B0D45A /* MarkdownToHTML */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LeftAlignedExperiments;
+			path = MarkdownToHTML;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C6C9000A2D94BA9B00AAA767 /* Frameworks */ = {
+		C69DE06C2D95D8D200B0D45A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C69DE0832D95D90400B0D45A /* Ink in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C6C900042D94BA9B00AAA767 = {
+		C69DE0662D95D8D200B0D45A = {
 			isa = PBXGroup;
 			children = (
-				C6C9000F2D94BA9B00AAA767 /* LeftAlignedExperiments */,
-				C6C9000E2D94BA9B00AAA767 /* Products */,
+				C69DE0712D95D8D200B0D45A /* MarkdownToHTML */,
+				C69DE0702D95D8D200B0D45A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C6C9000E2D94BA9B00AAA767 /* Products */ = {
+		C69DE0702D95D8D200B0D45A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6C9000D2D94BA9B00AAA767 /* LeftAlignedExperiments */,
+				C69DE06F2D95D8D200B0D45A /* MarkdownToHTML.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,64 +53,78 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C6C9000C2D94BA9B00AAA767 /* LeftAlignedExperiments */ = {
+		C69DE06E2D95D8D200B0D45A /* MarkdownToHTML */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6C900142D94BA9B00AAA767 /* Build configuration list for PBXNativeTarget "LeftAlignedExperiments" */;
+			buildConfigurationList = C69DE07E2D95D8D300B0D45A /* Build configuration list for PBXNativeTarget "MarkdownToHTML" */;
 			buildPhases = (
-				C6C900092D94BA9B00AAA767 /* Sources */,
-				C6C9000A2D94BA9B00AAA767 /* Frameworks */,
-				C6C9000B2D94BA9B00AAA767 /* CopyFiles */,
+				C69DE06B2D95D8D200B0D45A /* Sources */,
+				C69DE06C2D95D8D200B0D45A /* Frameworks */,
+				C69DE06D2D95D8D200B0D45A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C6C9000F2D94BA9B00AAA767 /* LeftAlignedExperiments */,
+				C69DE0712D95D8D200B0D45A /* MarkdownToHTML */,
 			);
-			name = LeftAlignedExperiments;
+			name = MarkdownToHTML;
 			packageProductDependencies = (
+				C69DE0822D95D90400B0D45A /* Ink */,
 			);
-			productName = LeftAlignedExperiments;
-			productReference = C6C9000D2D94BA9B00AAA767 /* LeftAlignedExperiments */;
-			productType = "com.apple.product-type.tool";
+			productName = MarkdownToHTML;
+			productReference = C69DE06F2D95D8D200B0D45A /* MarkdownToHTML.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C6C900052D94BA9B00AAA767 /* Project object */ = {
+		C69DE0672D95D8D200B0D45A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					C6C9000C2D94BA9B00AAA767 = {
+					C69DE06E2D95D8D200B0D45A = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = C6C900082D94BA9B00AAA767 /* Build configuration list for PBXProject "LeftAlignedExperiments" */;
+			buildConfigurationList = C69DE06A2D95D8D200B0D45A /* Build configuration list for PBXProject "MarkdownToHTML" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = C6C900042D94BA9B00AAA767;
+			mainGroup = C69DE0662D95D8D200B0D45A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C69DE0812D95D90400B0D45A /* XCRemoteSwiftPackageReference "ink" */,
+			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = C6C9000E2D94BA9B00AAA767 /* Products */;
+			productRefGroup = C69DE0702D95D8D200B0D45A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6C9000C2D94BA9B00AAA767 /* LeftAlignedExperiments */,
+				C69DE06E2D95D8D200B0D45A /* MarkdownToHTML */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C69DE06D2D95D8D200B0D45A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		C6C900092D94BA9B00AAA767 /* Sources */ = {
+		C69DE06B2D95D8D200B0D45A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -127,7 +134,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C6C900122D94BA9B00AAA767 /* Debug */ = {
+		C69DE07C2D95D8D300B0D45A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -190,7 +197,7 @@
 			};
 			name = Debug;
 		};
-		C6C900132D94BA9B00AAA767 /* Release */ = {
+		C69DE07D2D95D8D300B0D45A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -245,26 +252,56 @@
 			};
 			name = Release;
 		};
-		C6C900152D94BA9B00AAA767 /* Debug */ = {
+		C69DE07F2D95D8D300B0D45A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = LeftAlignedExperiments/LeftAlignedExperiments.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MarkdownToHTML/MarkdownToHTML.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MarkdownToHTML/Preview Content\"";
 				DEVELOPMENT_TEAM = 4UPZC3JM7B;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rabinjoshi.MarkdownToHTML;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		C6C900162D94BA9B00AAA767 /* Release */ = {
+		C69DE0802D95D8D300B0D45A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = LeftAlignedExperiments/LeftAlignedExperiments.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MarkdownToHTML/MarkdownToHTML.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MarkdownToHTML/Preview Content\"";
 				DEVELOPMENT_TEAM = 4UPZC3JM7B;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rabinjoshi.MarkdownToHTML;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -272,25 +309,44 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C6C900082D94BA9B00AAA767 /* Build configuration list for PBXProject "LeftAlignedExperiments" */ = {
+		C69DE06A2D95D8D200B0D45A /* Build configuration list for PBXProject "MarkdownToHTML" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C6C900122D94BA9B00AAA767 /* Debug */,
-				C6C900132D94BA9B00AAA767 /* Release */,
+				C69DE07C2D95D8D300B0D45A /* Debug */,
+				C69DE07D2D95D8D300B0D45A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6C900142D94BA9B00AAA767 /* Build configuration list for PBXNativeTarget "LeftAlignedExperiments" */ = {
+		C69DE07E2D95D8D300B0D45A /* Build configuration list for PBXNativeTarget "MarkdownToHTML" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C6C900152D94BA9B00AAA767 /* Debug */,
-				C6C900162D94BA9B00AAA767 /* Release */,
+				C69DE07F2D95D8D300B0D45A /* Debug */,
+				C69DE0802D95D8D300B0D45A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C69DE0812D95D90400B0D45A /* XCRemoteSwiftPackageReference "ink" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnsundell/ink";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C69DE0822D95D90400B0D45A /* Ink */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C69DE0812D95D90400B0D45A /* XCRemoteSwiftPackageReference "ink" */;
+			productName = Ink;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = C6C900052D94BA9B00AAA767 /* Project object */;
+	rootObject = C69DE0672D95D8D200B0D45A /* Project object */;
 }

@@ -199,8 +199,6 @@ func runConversion() {
     let semaphore = DispatchSemaphore(value: 0)
     var resultData: Data?
     var conversionError: Error?
-    let outputFilePath = "output.pdf" // Output file in the current directory
-    let outputURL = URL(fileURLWithPath: outputFilePath)
 
     print("Starting HTML to PDF conversion process...")
 

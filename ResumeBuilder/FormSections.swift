@@ -55,7 +55,10 @@ struct PersonalInfoSection: View {
 }
 
 #Preview("PersonalInfoSection") {
-    PersonalInfoSection(personalInfo: .constant(PersonalInfo.mock))
+    Form {
+        PersonalInfoSection(personalInfo: .constant(PersonalInfo.mock))
+    }
+    .formStyle(.grouped)
 }
 
 
@@ -67,13 +70,16 @@ struct SummarySection: View {
     var body: some View {
         Section("Summary") {
             TextEditor(text: $summary.text)
+                .textEditorStyle(.plain)
         }
     }
-
 }
 
 #Preview("SummarySection") {
-    SummarySection(summary: .constant(Summary.mock))
+    Form {
+        SummarySection(summary: .constant(Summary.mock))
+    }
+    .formStyle(.grouped)
 }
 
 

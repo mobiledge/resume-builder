@@ -24,7 +24,12 @@ import PDFKit
     }
 
     var pdfDocument: PDFDocument {
-        PDFDocument(attributedString: attributedString) ?? PDFDocument()
+        //PDFDocument(attributedString: attributedString) ?? PDFDocument()
+        guard let data = try? pdfData(),
+        let doc = PDFDocument(data: data) else {
+            return PDFDocument()
+        }
+        return doc
     }
 }
 

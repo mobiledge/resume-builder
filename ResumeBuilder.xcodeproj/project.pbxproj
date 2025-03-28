@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C67A0A2C2D97590D002F28B9 /* TPPDF in Frameworks */ = {isa = PBXBuildFile; productRef = C67A0A2B2D97590D002F28B9 /* TPPDF */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C6B471FF2D78A6580026EFAB /* ResumeBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResumeBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C67A0A2C2D97590D002F28B9 /* TPPDF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ResumeBuilder;
 			packageProductDependencies = (
+				C67A0A2B2D97590D002F28B9 /* TPPDF */,
 			);
 			productName = ResumeBuilder;
 			productReference = C6B471FF2D78A6580026EFAB /* ResumeBuilder.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = C6B471F62D78A6580026EFAB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C67A0A2A2D97590D002F28B9 /* XCRemoteSwiftPackageReference "TPPDF" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C6B472002D78A6580026EFAB /* Products */;
 			projectDirPath = "";
@@ -345,6 +354,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C67A0A2A2D97590D002F28B9 /* XCRemoteSwiftPackageReference "TPPDF" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/techprimate/TPPDF";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C67A0A2B2D97590D002F28B9 /* TPPDF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C67A0A2A2D97590D002F28B9 /* XCRemoteSwiftPackageReference "TPPDF" */;
+			productName = TPPDF;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C6B471F72D78A6580026EFAB /* Project object */;
 }

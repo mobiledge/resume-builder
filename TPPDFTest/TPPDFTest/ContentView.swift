@@ -61,17 +61,17 @@ struct ContentView: View {
             document.add(space: 15) // Space before next section
 
             // --- Location Section ---
-            document.add(
-                textObject: PDFSimpleText(
-                    text: "Location",
-                    style: style
-                )
-            )
+            document.add(textObject: PDFSimpleText(text: "Location", style: style))
             document.add(space: 5)
             document.add(textObject: PDFSimpleText(text: "City: \(personalInfo.city)"))
             document.add(textObject: PDFSimpleText(text: "State/Province: \(personalInfo.state)"))
             document.add(textObject: PDFSimpleText(text: "Country: \(personalInfo.country)"))
             document.add(space: 15)
+
+            document.add(PDFContainer.contentLeft, text: personalInfo.city)
+            document.add(PDFContainer.contentCenter, text: personalInfo.state)
+            document.add(PDFContainer.contentRight, text: personalInfo.country)
+
 
             // --- Contact Information Section ---
             document.add(textObject: PDFSimpleText(text: "Contact Information", style: style))

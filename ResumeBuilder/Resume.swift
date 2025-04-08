@@ -38,33 +38,21 @@ import PDFKit
     var name: String = ""
     var title: String = ""
     var city: String = ""
-    var state: String = ""
-    var country: String = ""
     var email: String = ""
     var phone: String = ""
-    var linkedIn: String = ""
-    var github: String = ""
 
     internal init(
         name: String = "",
         title: String = "",
         city: String = "",
-        state: String = "",
-        country: String = "",
         email: String = "",
-        phone: String = "",
-        linkedIn: String = "",
-        github: String = ""
+        phone: String = ""
     ) {
         self.name = name
         self.title = title
         self.city = city
-        self.state = state
-        self.country = country
         self.email = email
         self.phone = phone
-        self.linkedIn = linkedIn
-        self.github = github
     }
 
 
@@ -72,12 +60,8 @@ import PDFKit
         name: "John Doe",
         title: "Software Developer",
         city: "San Francisco",
-        state: "CA",
-        country: "USA",
         email: "john.doe@example.com",
-        phone: "555-123-4567",
-        linkedIn: "linkedin.com/in/johndoe",
-        github: "github.com/johndoe"
+        phone: "555-123-4567"
     )
 
     var attributedString: NSAttributedString {
@@ -95,25 +79,10 @@ import PDFKit
 
         result.append(NSAttributedString(string: "\n"))
         result.append(NSAttributedString(string: city, attributes: contactAttributes))
-        result.append(NSAttributedString(string: ", ", attributes: contactAttributes))
-        result.append(NSAttributedString(string: state, attributes: contactAttributes))
         result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
         result.append(NSAttributedString(string: email, attributes: contactAttributes))
         result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
         result.append(NSAttributedString(string: phone, attributes: contactAttributes))
-
-        // Online Profiles
-        let onlineProfilesAttributes = attributes(style: .caption1, color: NSColor.systemBlue, alignment: .center)
-
-        if !linkedIn.isEmpty {
-            result.append(NSAttributedString(string: "\n", attributes: contactAttributes))
-            result.append(NSAttributedString(string: linkedIn, attributes: onlineProfilesAttributes))
-        }
-
-        if !github.isEmpty {
-            result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
-            result.append(NSAttributedString(string: github, attributes: onlineProfilesAttributes))
-        }
 
         return result
     }

@@ -18,23 +18,11 @@ extension PersonalInfo {
     var attributedcity: NSAttributedString {
         return NSAttributedString(string: city, attributes: attributes())
     }
-    var attributedstate: NSAttributedString {
-        return NSAttributedString(string: state, attributes: attributes())
-    }
-    var attributedcountry: NSAttributedString {
-        return NSAttributedString(string: country, attributes: attributes())
-    }
     var attributedemail: NSAttributedString {
         return NSAttributedString(string: email, attributes: attributes())
     }
     var attributedphone: NSAttributedString {
         return NSAttributedString(string: phone, attributes: attributes())
-    }
-    var attributedlinkedIn: NSAttributedString {
-        return NSAttributedString(string: linkedIn, attributes: attributes())
-    }
-    var attributedgithub: NSAttributedString {
-        return NSAttributedString(string: github, attributes: attributes())
     }
 }
 extension Summary {

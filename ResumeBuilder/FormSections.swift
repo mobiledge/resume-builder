@@ -5,7 +5,7 @@ struct PersonalInfoSection: View {
     @FocusState private var focusedField: FormField?
 
     enum FormField {
-        case name, title, city, state, zipCode, country, email, phone, linkedIn, github
+        case name, title, city, email, phone
     }
 
     init(personalInfo: Binding<PersonalInfo>) {
@@ -26,14 +26,6 @@ struct PersonalInfoSection: View {
                 .focused($focusedField, equals: .city)
                 .textContentType(.addressCity)
 
-            TextField("State", text: $personalInfo.state)
-                .focused($focusedField, equals: .state)
-                .textContentType(.addressState)
-
-            TextField("Country", text: $personalInfo.country)
-                .focused($focusedField, equals: .country)
-                .textContentType(.countryName)
-
             TextField("Email", text: $personalInfo.email)
                 .focused($focusedField, equals: .email)
                 .textContentType(.emailAddress)
@@ -41,14 +33,6 @@ struct PersonalInfoSection: View {
             TextField("Phone", text: $personalInfo.phone)
                 .focused($focusedField, equals: .phone)
                 .textContentType(.telephoneNumber)
-
-            TextField("LinkedIn", text:  $personalInfo.linkedIn)
-                .focused($focusedField, equals: .linkedIn)
-                .textContentType(.URL)
-
-            TextField("GitHub", text: $personalInfo.github)
-                .focused($focusedField, equals: .github)
-                .textContentType(.URL)
         }
     }
 

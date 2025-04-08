@@ -35,17 +35,11 @@ extension PersonalInfo {
         document.add(space: 5)
         document.add(attributedText: attributedcity)
         document.add(space: 5)
-        document.add(attributedText: attributedstate)
-        document.add(space: 5)
-        document.add(attributedText: attributedcountry)
         document.add(space: 5)
         document.add(attributedText: attributedemail)
         document.add(space: 5)
         document.add(attributedText: attributedphone)
         document.add(space: 5)
-        document.add(attributedText: attributedlinkedIn)
-        document.add(space: 5)
-        document.add(attributedText: attributedgithub)
     }
 }
 

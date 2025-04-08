@@ -16,7 +16,7 @@ extension PersonalInfo {
         return NSAttributedString(string: title, attributes: attributes())
     }
     var attributedcity: NSAttributedString {
-        return NSAttributedString(string: city, attributes: attributes())
+        return NSAttributedString(string: location, attributes: attributes())
     }
     var attributedemail: NSAttributedString {
         return NSAttributedString(string: email, attributes: attributes())

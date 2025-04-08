@@ -37,7 +37,7 @@ import PDFKit
 @Observable class PersonalInfo {
     var name: String = ""
     var title: String = ""
-    var city: String = ""
+    var location: String = ""
     var email: String = ""
     var phone: String = ""
 
@@ -50,7 +50,7 @@ import PDFKit
     ) {
         self.name = name
         self.title = title
-        self.city = city
+        self.location = city
         self.email = email
         self.phone = phone
     }
@@ -78,7 +78,7 @@ import PDFKit
         let contactAttributes = attributes(style: .caption1, color: NSColor.darkGray, alignment: .center)
 
         result.append(NSAttributedString(string: "\n"))
-        result.append(NSAttributedString(string: city, attributes: contactAttributes))
+        result.append(NSAttributedString(string: location, attributes: contactAttributes))
         result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
         result.append(NSAttributedString(string: email, attributes: contactAttributes))
         result.append(NSAttributedString(string: " · ", attributes: contactAttributes))

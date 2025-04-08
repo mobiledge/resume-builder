@@ -22,7 +22,7 @@ struct PersonalInfoSection: View {
                 .focused($focusedField, equals: .title)
                 .textContentType(.jobTitle)
 
-            TextField("City", text: $personalInfo.city)
+            TextField("Location", text: $personalInfo.location)
                 .focused($focusedField, equals: .city)
                 .textContentType(.addressCity)
 

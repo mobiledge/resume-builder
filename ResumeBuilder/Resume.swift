@@ -13,16 +13,6 @@ import PDFKit
     var summary = Summary.mock
     var workExp = WorkExperience.mock
 
-    var attributedString: NSAttributedString {
-        let result = NSMutableAttributedString()
-        result.append(personalInfo.attributedString)
-        result.append(NSAttributedString(string: "\n\n"))
-        result.append(summary.attributedString)
-        result.append(NSAttributedString(string: "\n\n"))
-        result.append(workExp.attributedString)
-        return result
-    }
-
     var pdfDocument: PDFDocument {
         //PDFDocument(attributedString: attributedString) ?? PDFDocument()
         guard let data = try? pdfData(),
@@ -63,29 +53,6 @@ import PDFKit
         email: "john.doe@example.com",
         phone: "555-123-4567"
     )
-
-    var attributedString: NSAttributedString {
-        let result = NSMutableAttributedString()
-
-        // Name
-        result.append(NSAttributedString(string: name, attributes: attributes(style: .headline, alignment: .center)))
-
-        // Title
-        result.append(NSAttributedString(string: "\n"))
-        result.append(NSAttributedString(string: title, attributes: attributes(style: .subheadline, alignment: .center)))
-
-        // Contact Information
-        let contactAttributes = attributes(style: .caption1, color: NSColor.darkGray, alignment: .center)
-
-        result.append(NSAttributedString(string: "\n"))
-        result.append(NSAttributedString(string: location, attributes: contactAttributes))
-        result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
-        result.append(NSAttributedString(string: email, attributes: contactAttributes))
-        result.append(NSAttributedString(string: " · ", attributes: contactAttributes))
-        result.append(NSAttributedString(string: phone, attributes: contactAttributes))
-
-        return result
-    }
 }
 
 // MARK: - Summary
@@ -98,11 +65,36 @@ import PDFKit
     }
 
     static let mock = Summary(text:"Senior Software Developer with 10+ years of experience architecting scalable applications and leading high-performance engineering teams. Expertise in full-stack development, cloud infrastructure, and delivering enterprise solutions that drive business growth.")
+}
 
-    var attributedString: NSAttributedString {
-        return NSAttributedString(string: text, attributes: attributes(style: .body))
+@Observable class Skills {
+    var items: [Skill]
+
+    init(items: [Skill]) {
+        self.items = items
+    }
+
+    static let mock = Skills(items: [
+        Skill(category: "Frontend", values: "JavaScript, TypeScript, React, Vue.js, Angular, CSS3, HTML5, Webpack"),
+        Skill(category: "Backend", values: "Node.js, Express, Django, Ruby on Rails, REST APIs, GraphQL"),
+        Skill(category: "Database", values: "MongoDB, PostgreSQL, MySQL, Redis, Elasticsearch, ORM tools"),
+        Skill(category: "DevOps", values: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions, Netlify, Vercel"),
+        Skill(category: "Tools", values: "Git, VSCode, npm, Yarn, Jest, Cypress, Storybook, Figma")
+    ])
+
+}
+
+@Observable class Skill: Identifiable {
+    let id = UUID()
+    var category: String
+    var values: String
+
+    init(category: String, values: String) {
+        self.category = category
+        self.values = values
     }
 }
+
 
 // MARK: - Work Experience
 @Observable class WorkExperience {
@@ -143,87 +135,4 @@ import PDFKit
         )
         return mockExperience
     }
-
-    var attributedString: NSAttributedString {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM yyyy"
-
-        let attributedString = NSMutableAttributedString()
-
-
-
-        // Company name
-        attributedString.append(
-            NSAttributedString(
-                string: companyName,
-                attributes: attributes(style: .headline)
-            )
-        )
-
-        // Position and location
-        attributedString
-            .append(
-                NSAttributedString(
-                    string: "\n\(position) - \(location)",
-                    attributes: attributes(
-                        style: .subheadline,
-                        color: .secondaryLabelColor
-                    )
-                )
-            )
-
-        // Date range
-        var dateString = ""
-        if let start = startDate {
-            dateString = dateFormatter.string(from: start)
-            if isCurrentPosition {
-                dateString += " - Present"
-            } else if let end = endDate {
-                dateString += " - " + dateFormatter.string(from: end)
-            }
-        }
-        attributedString.append(
-            NSAttributedString(
-                string: "\n\(dateString)",
-                attributes: attributes(
-                    style: .subheadline,
-                    color: .secondaryLabelColor
-                )
-            )
-        )
-
-
-
-        // Description
-        if !description.isEmpty {
-            attributedString.append(
-                NSAttributedString(
-                    string: "\n\(description)",
-                    attributes: attributes(style: .body)
-                )
-            )
-        }
-
-        return attributedString
-    }
-}
-
-
-// MARK: -
-private func attributes(
-    style: NSFont.TextStyle = NSFont.TextStyle.body,
-    color: NSColor = NSColor.textColor,
-    alignment: NSTextAlignment = .left
-) -> [NSAttributedString.Key: Any] {
-
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = alignment
-
-    // Name
-    let attributes: [NSAttributedString.Key: Any] = [
-        .font: NSFont.preferredFont(forTextStyle: style),
-        .foregroundColor: color,
-        .paragraphStyle: paragraphStyle
-    ]
-    return attributes
 }

@@ -23,6 +23,7 @@ struct ContentView: View {
             Form {
                 PersonalInfoSection(personalInfo: $state.personalInfo)
                 SummarySection(summary: $state.summary)
+                SkillsView()
                 WorkExperienceSection(workExperience: $state.workExp)
             }
             .formStyle(.grouped)

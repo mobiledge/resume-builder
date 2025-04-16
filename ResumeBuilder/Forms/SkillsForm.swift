@@ -90,6 +90,7 @@ struct SkillSection: View {
             }, label: {
                 Label("Move Down!", systemImage: "arrowshape.down")
                     .labelStyle(.iconOnly)
+                    .font(.caption)
             })
 
             Button(action: {
@@ -97,6 +98,7 @@ struct SkillSection: View {
             }, label: {
                 Label("Move Up!", systemImage: "arrowshape.up")
                     .labelStyle(.iconOnly)
+                    .font(.caption)
             })
 
             Button(action: {
@@ -104,6 +106,7 @@ struct SkillSection: View {
             }, label: {
                 Label("Delete", systemImage: "trash")
                     .labelStyle(.iconOnly)
+                    .font(.caption)
             })
 
         }

@@ -21,6 +21,8 @@ extension Resume {
     func configure(document: PDFDocument) throws {
         personalInfo.configure(document: document)
         document.add(space: 20)
+        skills.configure(document: document)
+        document.add(space: 20)
         try workExp.configure(document: document)
     }
 }
@@ -37,7 +39,21 @@ extension PersonalInfo {
         document.add(space: 5)
         document.add(attributedText: attributedphone)
         document.add(space: 20)
+        document.add(attributedText: attributedSummaryHeader)
+        document.add(space: 5)
         document.add(attributedText: attributedSummary)
+    }
+}
+
+extension Skills {
+
+    func configure(document: PDFDocument) {
+        document.add(attributedText: attributedHeader)
+        document.add(space: 5)
+        for attr in attributedSkills {
+            document.add(attributedText: attr)
+            document.add(space: 5)
+        }
     }
 }
 

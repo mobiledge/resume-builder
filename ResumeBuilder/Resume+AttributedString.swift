@@ -24,8 +24,37 @@ extension PersonalInfo {
     var attributedphone: NSAttributedString {
         return NSAttributedString(string: phone, attributes: attributes())
     }
+    var attributedSummaryHeader: NSAttributedString {
+        NSAttributedString(string: "Summary", attributes: attributes(style: .title1))
+    }
     var attributedSummary: NSAttributedString {
         return NSAttributedString(string: summary, attributes: attributes())
+    }
+
+}
+
+extension Skills {
+    var attributedHeader: NSAttributedString {
+        NSAttributedString(string: "Skills", attributes: attributes(style: .title1))
+    }
+    var attributedSkills: [NSAttributedString] {
+        items.map { skill in
+            let attr = NSMutableAttributedString()
+            attr.append(skill.attributedCategory)
+            attr.append(NSAttributedString(string: ": ", attributes: attributes(style: .headline)))
+            attr.append(skill.attributedValues)
+            return attr
+        }
+    }
+}
+
+extension Skill {
+
+    var attributedCategory: NSAttributedString {
+        NSAttributedString(string: category, attributes: attributes(style: .headline))
+    }
+    var attributedValues: NSAttributedString {
+        NSAttributedString(string: values, attributes: attributes())
     }
 }
 

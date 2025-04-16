@@ -30,19 +30,22 @@ import PDFKit
     var location: String = ""
     var email: String = ""
     var phone: String = ""
+    var summary: String = ""
 
     internal init(
         name: String = "",
         title: String = "",
         city: String = "",
         email: String = "",
-        phone: String = ""
+        phone: String = "",
+        summary: String = ""
     ) {
         self.name = name
         self.title = title
         self.location = city
         self.email = email
         self.phone = phone
+        self.summary = summary
     }
 
 
@@ -51,7 +54,8 @@ import PDFKit
         title: "Software Developer",
         city: "San Francisco",
         email: "john.doe@example.com",
-        phone: "555-123-4567"
+        phone: "555-123-4567",
+        summary: "Senior Software Developer with 10+ years of experience architecting scalable applications and leading high-performance engineering teams. Expertise in full-stack development, cloud infrastructure, and delivering enterprise solutions that drive business growth."
     )
 }
 

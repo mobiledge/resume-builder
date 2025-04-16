@@ -1,5 +1,22 @@
 import SwiftUI
 
+typealias DeleteSkillHandler = (Skill) -> Void
+
+//@Observable
+//class SkillsViewModel {
+//    internal init(skills: Skills) {
+//        self.skills = skills
+//    }
+//    
+//
+//    var skills: Skills
+//
+//    func deleteSkill() {
+//
+//    }
+//
+//}
+
 struct SkillsForm: View {
 
     @Bindable var skills: Skills
@@ -8,11 +25,15 @@ struct SkillsForm: View {
         Form {
 
             ForEach(skills.items) { skill in
-                SkillSection(skill: skill)
+                SkillSection(skill: skill, deleteSkillHandler: deleteSkill(_:))
             }
             AddSkillSection(skill: Skill(category: "", values: ""))
         }
         .formStyle(.grouped)
+    }
+
+    func deleteSkill(_ skill: Skill) {
+        skills.items.removeAll { $0.id == skill.id }
     }
 }
 
@@ -54,6 +75,8 @@ struct AddSkillSection: View {
 struct SkillSection: View {
 
     @Bindable var skill: Skill
+
+    let deleteSkillHandler: DeleteSkillHandler
 
     var body: some View {
         Section {
@@ -101,20 +124,22 @@ struct SkillSection: View {
                     .font(.caption)
             })
 
-            Button(action: {
-                print("Delete")
-            }, label: {
+            Button(action: deleteSkill) {
                 Label("Delete", systemImage: "trash")
                     .labelStyle(.iconOnly)
                     .font(.caption)
-            })
+            }
 
         }
         .buttonStyle(.plain)
         .foregroundStyle(Color.secondary)
     }
+
+    func deleteSkill() {
+        deleteSkillHandler(skill)
+    }
 }
 
 #Preview("SkillSection") {
-        SkillSection(skill: Skill(category: "Languages", values: "Swift, Objective-C, C++, C"))
+    SkillSection(skill: Skill(category: "Languages", values: "Swift, Objective-C, C++, C"), deleteSkillHandler: {_ in})
 }

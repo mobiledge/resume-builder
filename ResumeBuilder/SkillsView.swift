@@ -66,16 +66,16 @@ struct SkillSection: View {
     var categoryTextField: some View {
         TextField(text: $skill.category, prompt: Text("Enter Skill Category")) {
             Text("Category")
-                .font(.headline)
-                .foregroundColor(.secondary)
+                .font(.body)
+                .foregroundStyle(Color.secondary)
         }
     }
 
     var skillsTextField: some View {
         TextField(text: $skill.values, prompt: Text("Enter comma seperated skills")) {
             Text("Skills")
-                .font(.headline)
-                .foregroundColor(.secondary)
+                .font(.body)
+                .foregroundStyle(Color.secondary)
         }
     }
 

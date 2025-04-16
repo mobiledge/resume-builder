@@ -24,6 +24,7 @@ struct ContentView: View {
         } content: {
 
             NavigationContentView(section: selectedSection, resume: $state)
+                .frame(minWidth: 400)
 
 //            Form {
 //                PersonalInfoSection(personalInfo: $state.personalInfo)

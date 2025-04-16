@@ -14,15 +14,12 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-
             SidebarView(selectedSection: $selectedSection)
                 .frame(minWidth: 200)
         } content: {
-
             NavigationContentView(section: selectedSection, resume: resume)
                 .frame(minWidth: 400)
         } detail: {
-
             PDFViewer(document: resume.pdfDocument)
                 .frame(minWidth: 400)
         }

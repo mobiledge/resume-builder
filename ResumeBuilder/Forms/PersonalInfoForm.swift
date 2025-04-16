@@ -12,31 +12,52 @@ struct PersonalInfoForm: View {
     @FocusState private var focusedField: FormField?
 
     enum FormField {
-        case name, title, city, email, phone, summary
+        case name, title, location, email, phone, summary
     }
 
     var body: some View {
         Form {
             Section("Personal Information") {
-                TextField("Name", text: $personalInfo.name)
-                    .focused($focusedField, equals: .name)
-                    .textContentType(.name)
 
-                TextField("Title", text: $personalInfo.title)
-                    .focused($focusedField, equals: .title)
-                    .textContentType(.jobTitle)
+                TextField(text: $personalInfo.name, prompt: Text("Enter Name")) {
+                    Text("Name")
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
+                }
+                .focused($focusedField, equals: .name)
+                .textContentType(.name)
 
-                TextField("Location", text: $personalInfo.location)
-                    .focused($focusedField, equals: .city)
-                    .textContentType(.addressCity)
+                TextField(text: $personalInfo.title, prompt: Text("Enter Title")) {
+                    Text("Title")
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
+                }
+                .focused($focusedField, equals: .title)
+                .textContentType(.jobTitle)
 
-                TextField("Email", text: $personalInfo.email)
-                    .focused($focusedField, equals: .email)
-                    .textContentType(.emailAddress)
+                TextField(text: $personalInfo.location, prompt: Text("Location")) {
+                    Text("Location")
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
+                }
+                .focused($focusedField, equals: .location)
+                .textContentType(.addressCity)
 
-                TextField("Phone", text: $personalInfo.phone)
-                    .focused($focusedField, equals: .phone)
-                    .textContentType(.telephoneNumber)
+                TextField(text: $personalInfo.email, prompt: Text("Email")) {
+                    Text("Email")
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
+                }
+                .focused($focusedField, equals: .email)
+                .textContentType(.emailAddress)
+
+                TextField(text: $personalInfo.phone, prompt: Text("Phone")) {
+                    Text("Phone")
+                        .font(.body)
+                        .foregroundStyle(Color.secondary)
+                }
+                .focused($focusedField, equals: .phone)
+                .textContentType(.telephoneNumber)
             }
 
             Section("Summary") {

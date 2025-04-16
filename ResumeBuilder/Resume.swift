@@ -10,6 +10,7 @@ import PDFKit
 
 @Observable class Resume {
     var personalInfo = PersonalInfo.mock
+    var skills = Skills.mock
     var summary = Summary.mock
     var workExp = WorkExperience.mock
 

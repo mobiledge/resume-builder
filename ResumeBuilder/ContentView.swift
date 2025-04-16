@@ -13,7 +13,7 @@ struct ContentView: View {
     private let usLetterWidth: CGFloat = 612
     private let usLetterHeight: CGFloat = 792
 
-    @State var state = Resume()
+    @State var resume = Resume()
 
     @State private var selectedSection: SidebarSection = .skills
 
@@ -23,7 +23,7 @@ struct ContentView: View {
                 .frame(minWidth: 200)
         } content: {
 
-            NavigationContentView(section: selectedSection, resume: $state)
+            NavigationContentView(section: selectedSection, resume: resume)
                 .frame(minWidth: 400)
 
 //            Form {
@@ -37,7 +37,7 @@ struct ContentView: View {
 //            .frame(minWidth: 400)
 
         } detail: {
-            PDFViewer(document: state.pdfDocument)
+            PDFViewer(document: resume.pdfDocument)
                 .frame(minWidth: usLetterWidth, idealWidth: usLetterWidth)
         }
         .frame(minWidth: usLetterWidth * 2 + 200, minHeight: usLetterHeight)
@@ -99,17 +99,17 @@ struct SidebarView: View {
 
 struct NavigationContentView: View {
     let section: SidebarSection
-    @Binding var resume: Resume
+    @Bindable var resume: Resume
 
     var body: some View {
 
         switch section {
 
         case .personalInfo:
-            PersonalInfoView(personalInfo: $resume.personalInfo)
+            PersonalInfoForm(personalInfo: resume.personalInfo)
 
         case .skills:
-            SkillsForm(skills: Skills.mock)
+            SkillsForm(skills: resume.skills)
 
         case .experience:
             VStack(alignment: .leading, spacing: 15) {

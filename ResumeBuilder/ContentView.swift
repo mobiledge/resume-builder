@@ -15,7 +15,7 @@ struct ContentView: View {
 
     @State var state = Resume()
 
-    @State private var selectedSection: SidebarSection = .personalInfo
+    @State private var selectedSection: SidebarSection = .skills
 
     var body: some View {
         NavigationSplitView {
@@ -103,19 +103,13 @@ struct NavigationContentView: View {
     var body: some View {
 
         switch section {
-        case .personalInfo:
 
+        case .personalInfo:
             PersonalInfoView(personalInfo: $resume.personalInfo)
 
         case .skills:
-            VStack(alignment: .leading, spacing: 15) {
-                SkillGroup(title: "Programming", skills: ["Swift", "SwiftUI", "Objective-C", "Python"])
-                SkillGroup(title: "Design", skills: ["UI/UX", "Sketch", "Figma"])
-                SkillGroup(title: "Other", skills: ["Project Management", "Team Leadership"])
-            }
-            .padding()
-            .background(.secondary)
-            .cornerRadius(10)
+            SkillsForm(skills: Skills.mock)
+
         case .experience:
             VStack(alignment: .leading, spacing: 15) {
                 ExperienceItem(
@@ -167,28 +161,6 @@ struct InfoRow: View {
                 .frame(width: 80, alignment: .leading)
             Text(value)
                 .font(.body)
-        }
-    }
-}
-
-struct SkillGroup: View {
-    let title: String
-    let skills: [String]
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(title)
-                .font(.headline)
-
-            HStack {
-                ForEach(skills, id: \.self) { skill in
-                    Text(skill)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.blue.opacity(0.2))
-                        .cornerRadius(5)
-                }
-            }
         }
     }
 }

@@ -9,38 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
 
-    // US Letter dimensions in points
-    private let usLetterWidth: CGFloat = 612
-    private let usLetterHeight: CGFloat = 792
-
     @State var resume = Resume()
-
     @State private var selectedSection: SidebarSection = .skills
 
     var body: some View {
         NavigationSplitView {
+
             SidebarView(selectedSection: $selectedSection)
                 .frame(minWidth: 200)
         } content: {
 
             NavigationContentView(section: selectedSection, resume: resume)
                 .frame(minWidth: 400)
-
-//            Form {
-//                PersonalInfoSection(personalInfo: $state.personalInfo)
-//                SummarySection(summary: $state.summary)
-//                SkillsView()
-//                WorkExperienceSection(workExperience: $state.workExp)
-//            }
-//            .formStyle(.grouped)
-//            .padding()
-//            .frame(minWidth: 400)
-
         } detail: {
+
             PDFViewer(document: resume.pdfDocument)
-                .frame(minWidth: usLetterWidth, idealWidth: usLetterWidth)
+                .frame(minWidth: 400)
         }
-        .frame(minWidth: usLetterWidth * 2 + 200, minHeight: usLetterHeight)
+        .frame(minWidth: 1000, minHeight: 800)
     }
 }
 

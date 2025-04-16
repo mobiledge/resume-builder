@@ -11,11 +11,9 @@ import PDFKit
 @Observable class Resume {
     var personalInfo = PersonalInfo.mock
     var skills = Skills.mock
-    var summary = Summary.mock
     var workExp = WorkExperience.mock
 
     var pdfDocument: PDFDocument {
-        //PDFDocument(attributedString: attributedString) ?? PDFDocument()
         guard let data = try? pdfData(),
         let doc = PDFDocument(data: data) else {
             return PDFDocument()
@@ -24,7 +22,6 @@ import PDFKit
     }
 }
 
-// MARK: - Personal Information
 @Observable class PersonalInfo {
     var name: String = ""
     var title: String = ""
@@ -60,18 +57,6 @@ import PDFKit
     )
 }
 
-// MARK: - Summary
-@Observable class Summary {
-
-    var text: String
-
-    internal init(text: String) {
-        self.text = text
-    }
-
-    static let mock = Summary(text:"Senior Software Developer with 10+ years of experience architecting scalable applications and leading high-performance engineering teams. Expertise in full-stack development, cloud infrastructure, and delivering enterprise solutions that drive business growth.")
-}
-
 @Observable class Skills {
     var items: [Skill]
 
@@ -100,8 +85,6 @@ import PDFKit
     }
 }
 
-
-// MARK: - Work Experience
 @Observable class WorkExperience {
     var companyName: String = ""
     var position: String = ""

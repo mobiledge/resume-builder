@@ -24,12 +24,11 @@ extension PersonalInfo {
     var attributedphone: NSAttributedString {
         return NSAttributedString(string: phone, attributes: attributes())
     }
-}
-extension Summary {
-    var attributedText: NSAttributedString {
-        NSAttributedString(string: text, attributes: attributes())
+    var attributedSummary: NSAttributedString {
+        return NSAttributedString(string: summary, attributes: attributes())
     }
 }
+
 extension WorkExperience {
     var attributedPosition: NSAttributedString {
         NSAttributedString(string: position, attributes: attributes(style: .headline))

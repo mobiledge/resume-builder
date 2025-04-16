@@ -46,28 +46,6 @@ struct PersonalInfoSection: View {
 }
 
 
-// MARK: - Summary
-struct SummarySection: View {
-    @Binding var summary: Summary
-
-
-    var body: some View {
-        Section("Summary") {
-            TextEditor(text: $summary.text)
-                .textEditorStyle(.plain)
-        }
-    }
-}
-
-#Preview("SummarySection") {
-    Form {
-        SummarySection(summary: .constant(Summary.mock))
-    }
-    .formStyle(.grouped)
-}
-
-
-
 struct WorkExperienceSection: View {
     @Binding var workExperience: WorkExperience
     @FocusState private var focusedField: FormField?

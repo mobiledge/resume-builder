@@ -74,7 +74,7 @@ import PDFKit
 
 }
 
-@Observable class Skill: Identifiable {
+@Observable class Skill: Identifiable, Equatable {
     let id = UUID()
     var category: String
     var values: String
@@ -82,6 +82,10 @@ import PDFKit
     init(category: String, values: String) {
         self.category = category
         self.values = values
+    }
+
+    static func == (lhs: Skill, rhs: Skill) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

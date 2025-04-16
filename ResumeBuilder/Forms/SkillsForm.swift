@@ -3,69 +3,53 @@ import SwiftUI
 typealias DeleteSkillHandler = (Skill) -> Void
 typealias AddSkillHandler = (Skill) -> Void
 
-//@Observable
-//class SkillsViewModel {
-//    internal init(skills: Skills) {
-//        self.skills = skills
-//    }
-//    
-//
-//    var skills: Skills
-//
-//    func deleteSkill() {
-//
-//    }
-//
-//}
-
 struct SkillsForm: View {
-
     @Bindable var skills: Skills
+    @State private var newSkill = Skill(category: "", values: "")
 
     var body: some View {
         Form {
-
             ForEach(skills.items) { skill in
                 SkillSection(
                     skill: skill,
                     deleteSkillHandler: deleteSkill(_:)
                 )
             }
+
             AddSkillSection(
-                skill: Skill(category: "", values: ""),
+                skill: $newSkill,
                 addSkillHandler: addSkill(_:)
             )
         }
         .formStyle(.grouped)
+        .animation(.spring(duration: 0.3), value: skills.items) // Animate when items array changes
     }
 
     func deleteSkill(_ skill: Skill) {
-        skills.items.removeAll { $0.id == skill.id }
+        withAnimation {
+            skills.items.removeAll { $0.id == skill.id }
+        }
     }
 
     func addSkill(_ skill: Skill) {
-        skills.items.append(skill)
+        withAnimation {
+            skills.items.append(skill)
+            // Reset the new skill form after adding
+            newSkill = Skill(category: "", values: "")
+        }
     }
 }
 
-#Preview("SkillsForm") {
-    SkillsForm(skills: Skills.mock)
-}
-
 struct AddSkillSection: View {
-    @Bindable var skill: Skill
+    @Binding var skill: Skill
     let addSkillHandler: AddSkillHandler
 
-
     var body: some View {
-
         Section("Add New Skill") {
-
             TextField(text: $skill.category, prompt: Text("Enter Skill Category")) {
                 Text("Category")
                     .font(.headline)
                     .foregroundColor(.secondary)
-
             }
 
             TextField(text: $skill.values, prompt: Text("Enter comma seperated skills")) {
@@ -79,6 +63,7 @@ struct AddSkillSection: View {
                 Button(action: addSkill) {
                     Text("Add")
                 }
+                .disabled(skill.category.isEmpty || skill.values.isEmpty)
             }
         }
     }
@@ -92,13 +77,13 @@ struct SkillSection: View {
     @Bindable var skill: Skill
     let deleteSkillHandler: DeleteSkillHandler
 
-
     var body: some View {
         Section {
             categoryTextField
             skillsTextField
             actionButtons
         }
+        .transition(.slide) // Add transition for the whole section
     }
 
     var categoryTextField: some View {
@@ -118,9 +103,7 @@ struct SkillSection: View {
     }
 
     var actionButtons: some View {
-
         HStack(spacing: 20) {
-
             Spacer()
 
             Button(action: {
@@ -144,7 +127,6 @@ struct SkillSection: View {
                     .labelStyle(.iconOnly)
                     .font(.caption)
             }
-
         }
         .buttonStyle(.plain)
         .foregroundStyle(Color.secondary)

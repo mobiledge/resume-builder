@@ -151,7 +151,6 @@ extension Education {
 
         // Field of Study
         if !fieldOfStudy.isEmpty {
-            document.add(space: 5)
             document.add(attributedText: attributedFieldOfStudy)
         }
     }

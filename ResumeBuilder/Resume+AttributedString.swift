@@ -70,9 +70,6 @@ extension WorkExperience {
     var attributedCompanyName: NSAttributedString {
         NSAttributedString(string: companyName, attributes: attributes())
     }
-    var attributedLocation: NSAttributedString {
-        NSAttributedString(string: location, attributes: attributes(style: .subheadline, color: .secondaryLabelColor))
-    }
     var attributedDate: NSAttributedString {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM yyyy"
@@ -85,7 +82,10 @@ extension WorkExperience {
                 dateString += " - " + dateFormatter.string(from: end)
             }
         }
-        return NSAttributedString(string: dateString, attributes: attributes(style: .subheadline, color: .secondaryLabelColor))
+        return NSAttributedString(string: dateString, attributes: attributes(style: .headline))
+    }
+    var attributedLocation: NSAttributedString {
+        NSAttributedString(string: location, attributes: attributes())
     }
     var attributedDescription: NSAttributedString {
         NSAttributedString(string: description, attributes: attributes())
@@ -100,16 +100,13 @@ extension EducationCollection {
 
 extension Education {
     var attributedDegree: NSAttributedString {
-        NSAttributedString(string: degree, attributes: attributes())
-    }
-    var attributedFieldOfStudy: NSAttributedString {
-        NSAttributedString(string: fieldOfStudy, attributes: attributes())
+        NSAttributedString(string: degree, attributes: attributes(style: .headline))
     }
     var attributedInstitution: NSAttributedString {
         NSAttributedString(string: institution, attributes: attributes())
     }
-    var attributedLocation: NSAttributedString {
-        NSAttributedString(string: location, attributes: attributes())
+    var attributedFieldOfStudy: NSAttributedString {
+        NSAttributedString(string: fieldOfStudy, attributes: attributes())
     }
     var attributedDate: NSAttributedString {
         let dateFormatter = DateFormatter()
@@ -121,7 +118,10 @@ extension Education {
         } else {
             dateString += " - Present"
         }
-        return NSAttributedString(string: dateString, attributes: attributes(style: .subheadline, color: .secondaryLabelColor))
+        return NSAttributedString(string: dateString, attributes: attributes(style: .headline))
+    }
+    var attributedLocation: NSAttributedString {
+        NSAttributedString(string: location, attributes: attributes())
     }
 }
 

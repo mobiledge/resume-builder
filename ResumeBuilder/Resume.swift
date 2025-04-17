@@ -12,10 +12,10 @@ import PDFKit
     var personalInfo = PersonalInfo.mock
     var skills = Skills.mock
     var workExp = WorkExperience.mock
-
+    
     var pdfDocument: PDFDocument {
         guard let data = try? pdfData(),
-        let doc = PDFDocument(data: data) else {
+              let doc = PDFDocument(data: data) else {
             return PDFDocument()
         }
         return doc
@@ -29,7 +29,7 @@ import PDFKit
     var email: String = ""
     var phone: String = ""
     var summary: String = ""
-
+    
     internal init(
         name: String = "",
         title: String = "",
@@ -45,8 +45,8 @@ import PDFKit
         self.phone = phone
         self.summary = summary
     }
-
-
+    
+    
     static var mock: PersonalInfo = PersonalInfo(
         name: "John Doe",
         title: "Software Developer",
@@ -59,11 +59,11 @@ import PDFKit
 
 @Observable class Skills {
     var items: [Skill]
-
+    
     init(items: [Skill]) {
         self.items = items
     }
-
+    
     static let mock = Skills(items: [
         Skill(category: "Frontend", values: "JavaScript, TypeScript, React, Vue.js, Angular, CSS3, HTML5, Webpack"),
         Skill(category: "Backend", values: "Node.js, Express, Django, Ruby on Rails, REST APIs, GraphQL"),
@@ -71,25 +71,78 @@ import PDFKit
         Skill(category: "DevOps", values: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions, Netlify, Vercel"),
         Skill(category: "Tools", values: "Git, VSCode, npm, Yarn, Jest, Cypress, Storybook, Figma")
     ])
-
+    
 }
 
 @Observable class Skill: Identifiable, Equatable {
     let id = UUID()
     var category: String
     var values: String
-
+    
     init(category: String, values: String) {
         self.category = category
         self.values = values
     }
-
+    
     static func == (lhs: Skill, rhs: Skill) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-@Observable class WorkExperience {
+@Observable class WorkExperienceCollection {
+    var items: [WorkExperience]
+    
+    internal init(items: [WorkExperience]) {
+        self.items = items
+    }
+    
+    static var mock: WorkExperienceCollection {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return WorkExperienceCollection(items: [
+            WorkExperience(
+                companyName: "Tech Innovations Inc.",
+                position: "Senior Software Engineer",
+                location: "San Francisco, CA",
+                startDate: dateFormatter.date(from: "2022-03-15"),
+                endDate: nil,
+                isCurrentPosition: true,
+                description: "Leading a team of 5 engineers developing iOS applications. Implemented CI/CD pipelines that reduced deployment time by 40%. Architected and developed a new feature that increased user engagement by 25%."
+            ),
+            WorkExperience(
+                companyName: "Mobile Solutions Ltd.",
+                position: "iOS Developer",
+                location: "Austin, TX",
+                startDate: dateFormatter.date(from: "2019-06-01"),
+                endDate: dateFormatter.date(from: "2022-03-01"),
+                isCurrentPosition: false,
+                description: "Developed and maintained multiple iOS applications using Swift and UIKit. Collaborated with design team to implement user-friendly interfaces. Reduced app crash rate by 75% through comprehensive testing and debugging."
+            ),
+            WorkExperience(
+                companyName: "StartUp Ventures",
+                position: "Junior Developer",
+                location: "Boston, MA",
+                startDate: dateFormatter.date(from: "2017-09-12"),
+                endDate: dateFormatter.date(from: "2019-05-15"),
+                isCurrentPosition: false,
+                description: "Assisted in the development of iOS and Android applications. Implemented RESTful API integrations. Participated in daily scrums and bi-weekly sprint planning meetings."
+            ),
+            WorkExperience(
+                companyName: "Code Academy",
+                position: "Intern",
+                location: "Remote",
+                startDate: dateFormatter.date(from: "2017-01-10"),
+                endDate: dateFormatter.date(from: "2017-08-30"),
+                isCurrentPosition: false,
+                description: "Assisted senior developers with bug fixes and testing. Learned Swift programming and iOS development principles. Created a small utility application as a final project."
+            )
+        ])
+    }
+}
+
+@Observable class WorkExperience: Identifiable {
+    let id = UUID()
     var companyName: String = ""
     var position: String = ""
     var location: String = ""
@@ -97,7 +150,7 @@ import PDFKit
     var endDate: Date? = nil
     var isCurrentPosition: Bool = false
     var description: String = ""
-
+    
     init(
         companyName: String,
         position: String,
@@ -115,7 +168,7 @@ import PDFKit
         self.isCurrentPosition = isCurrentPosition
         self.description = description
     }
-
+    
     static var mock: WorkExperience {
         let mockExperience = WorkExperience(
             companyName: "Apple Inc.",

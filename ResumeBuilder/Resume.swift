@@ -89,6 +89,7 @@ import PDFKit
     }
 }
 
+
 @Observable class WorkExperienceCollection {
     var items: [WorkExperience]
 
@@ -189,6 +190,121 @@ import PDFKit
             endDate: nil,
             isCurrentPosition: false,
             description: ""
+        )
+    }
+}
+
+
+
+@Observable class EducationCollection {
+    var items: [Education]
+
+    // MARK: - Initializers
+    init() {
+        self.items = []
+    }
+
+    init(items: [Education]) {
+        self.items = items
+    }
+
+    // MARK: - Methods
+    func add(_ education: Education) {
+        items.append(education)
+    }
+
+    func remove(at index: Int) {
+        guard index >= 0 && index < items.count else { return }
+        items.remove(at: index)
+    }
+
+    func getItem(at index: Int) -> Education? {
+        guard index >= 0 && index < items.count else { return nil }
+        return items[index]
+    }
+
+    func count() -> Int {
+        return items.count
+    }
+
+    func isEmpty() -> Bool {
+        return items.isEmpty
+    }
+
+    // MARK: - Static Properties
+    static var mock: EducationCollection {
+        let collection = EducationCollection()
+        collection.add(Education.mock)
+        collection.add(Education(
+            degree: "Master of Science",
+            fieldOfStudy: "Computer Science",
+            institution: "Stanford University",
+            location: "Stanford, CA",
+            startDate: Calendar.current.date(from: DateComponents(year: 2018, month: 9, day: 1))!,
+            endDate: Calendar.current.date(from: DateComponents(year: 2020, month: 6, day: 15))!
+        ))
+        collection.add(Education(
+            degree: "PhD",
+            fieldOfStudy: "Artificial Intelligence",
+            institution: "MIT",
+            location: "Cambridge, MA",
+            startDate: Calendar.current.date(from: DateComponents(year: 2020, month: 9, day: 1))!,
+            endDate: nil
+        ))
+        return collection
+    }
+
+    static var empty: EducationCollection {
+        return EducationCollection()
+    }
+}
+
+@Observable class Education: Identifiable {
+    let id = UUID()
+    var degree: String
+    var fieldOfStudy: String
+    var institution: String
+    var location: String
+    var startDate: Date
+    var endDate: Date?
+
+    // MARK: - Initializer
+    init(
+        degree: String,
+        fieldOfStudy: String,
+        institution: String,
+        location: String,
+        startDate: Date,
+        endDate: Date? = nil
+    ) {
+        self.degree = degree
+        self.fieldOfStudy = fieldOfStudy
+        self.institution = institution
+        self.location = location
+        self.startDate = startDate
+        self.endDate = endDate
+    }
+
+    // MARK: - Static Properties
+    static var mock: Education {
+        return Education(
+            degree: "Bachelor of Science",
+            fieldOfStudy: "Computer Engineering",
+            institution: "University of California, Berkeley",
+            location: "Berkeley, CA",
+            startDate: Calendar.current.date(from: DateComponents(year: 2014, month: 8, day: 20))!,
+            endDate: Calendar.current.date(from: DateComponents(year: 2018, month: 5, day: 12))!
+        )
+    }
+
+    static var empty: Education {
+        return Education(
+            degree: "",
+            fieldOfStudy: "",
+            institution: "",
+            location: "",
+            startDate: Date(),
+            endDate: nil
         )
     }
 }

@@ -92,6 +92,39 @@ extension WorkExperience {
     }
 }
 
+extension EducationCollection {
+    var attributedHeader: NSAttributedString {
+        NSAttributedString(string: "Education", attributes: attributes(style: .title1))
+    }
+}
+
+extension Education {
+    var attributedDegree: NSAttributedString {
+        NSAttributedString(string: degree, attributes: attributes())
+    }
+    var attributedFieldOfStudy: NSAttributedString {
+        NSAttributedString(string: fieldOfStudy, attributes: attributes())
+    }
+    var attributedInstitution: NSAttributedString {
+        NSAttributedString(string: institution, attributes: attributes())
+    }
+    var attributedLocation: NSAttributedString {
+        NSAttributedString(string: location, attributes: attributes())
+    }
+    var attributedDate: NSAttributedString {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM yyyy"
+        var dateString = ""
+        dateString = dateFormatter.string(from: startDate)
+        if let end = endDate {
+            dateString += " - " + dateFormatter.string(from: end)
+        } else {
+            dateString += " - Present"
+        }
+        return NSAttributedString(string: dateString, attributes: attributes(style: .subheadline, color: .secondaryLabelColor))
+    }
+}
+
 // MARK: -
 private func attributes(
     style: NSFont.TextStyle = NSFont.TextStyle.body,

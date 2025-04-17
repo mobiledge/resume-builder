@@ -24,6 +24,8 @@ extension Resume {
         skills.configure(document: document)
         document.add(space: 20)
         try workExperienceCollection.configure(document: document)
+        document.add(space: 20)
+        try educationCollection.configure(document: document)
     }
 }
 
@@ -101,5 +103,56 @@ extension WorkExperience {
         document.add(table: table)
         document.add(space: 5)
         document.add(attributedText: attributedDescription)
+    }
+}
+
+extension EducationCollection {
+
+    func configure(document: PDFDocument) throws {
+        document.add(attributedText: attributedHeader)
+        document.add(space: 20)
+        for edu in items {
+            try edu.configure(document: document)
+            document.add(space: 20)
+        }
+    }
+}
+
+extension Education {
+
+    func configure(document: PDFDocument) throws {
+        // Table
+        let table = PDFTable(rows: 2, columns: 2)
+        table.style = PDFTableStyle(outline: PDFLineStyle(type: .none, color: .clear))
+        table.padding = 0
+        table.margin = 0
+
+        // Degree
+        let degreeCell = table[0, 0]
+        degreeCell.content = try PDFTableContent(content: attributedDegree)
+        degreeCell.alignment = .left
+
+        // Dates
+        let dateCell = table[0, 1]
+        dateCell.content = try PDFTableContent(content: attributedDate)
+        dateCell.alignment = .right
+
+        // Institution
+        let institutionCell = table[1, 0]
+        institutionCell.content = try PDFTableContent(content: attributedInstitution)
+        institutionCell.alignment = .left
+
+        // Location
+        let locationCell = table[1, 1]
+        locationCell.content = try PDFTableContent(content: attributedLocation)
+        locationCell.alignment = .right
+
+        document.add(table: table)
+
+        // Field of Study
+        if !fieldOfStudy.isEmpty {
+            document.add(space: 5)
+            document.add(attributedText: attributedFieldOfStudy)
+        }
     }
 }

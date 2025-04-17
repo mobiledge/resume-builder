@@ -49,12 +49,17 @@ extension Skills {
 }
 
 extension Skill {
-
     var attributedCategory: NSAttributedString {
         NSAttributedString(string: category, attributes: attributes(style: .headline))
     }
     var attributedValues: NSAttributedString {
         NSAttributedString(string: values, attributes: attributes())
+    }
+}
+
+extension WorkExperienceCollection {
+    var attributedHeader: NSAttributedString {
+        NSAttributedString(string: "Work Experience", attributes: attributes(style: .title1))
     }
 }
 

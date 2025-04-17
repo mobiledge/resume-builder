@@ -1,13 +1,11 @@
 import SwiftUI
 
-typealias DeleteSkillHandler = (Skill) -> Void
-typealias AddSkillHandler = (Skill) -> Void
-
-typealias CanMoveUpHandler = (Skill) -> Bool
-typealias MoveUpHandler = (Skill) -> Void
-
-typealias CanMoveDownHandler = (Skill) -> Bool
-typealias MoveDownHandler = (Skill) -> Void
+fileprivate typealias DeleteSkillHandler = (Skill) -> Void
+fileprivate typealias AddSkillHandler = (Skill) -> Void
+fileprivate typealias CanMoveUpHandler = (Skill) -> Bool
+fileprivate typealias MoveUpHandler = (Skill) -> Void
+fileprivate typealias CanMoveDownHandler = (Skill) -> Bool
+fileprivate typealias MoveDownHandler = (Skill) -> Void
 
 struct SkillsForm: View {
     @Bindable var skills: Skills
@@ -92,7 +90,7 @@ struct SkillsForm: View {
 
 struct AddSkillSection: View {
     @Binding var skill: Skill
-    let addSkillHandler: AddSkillHandler
+    fileprivate let addSkillHandler: AddSkillHandler
 
     var body: some View {
         Section("Add New Skill") {
@@ -125,11 +123,11 @@ struct AddSkillSection: View {
 
 struct SkillSection: View {
     @Bindable var skill: Skill
-    let deleteSkillHandler: DeleteSkillHandler
-    let canMoveUpHandler: CanMoveUpHandler
-    let moveUpHandler: MoveUpHandler
-    let canMoveDownHandler: CanMoveDownHandler
-    let moveDownHandler: MoveDownHandler
+    fileprivate let deleteSkillHandler: DeleteSkillHandler
+    fileprivate let canMoveUpHandler: CanMoveUpHandler
+    fileprivate let moveUpHandler: MoveUpHandler
+    fileprivate let canMoveDownHandler: CanMoveDownHandler
+    fileprivate let moveDownHandler: MoveDownHandler
 
     var body: some View {
         Section {

@@ -95,7 +95,7 @@ struct NavigationContentView: View {
             SkillsForm(skills: resume.skills)
 
         case .experience:
-            WorkExperienceForm(col: resume.workExperienceCollection)
+            WorkExperienceForm(collection: resume.workExperienceCollection)
 
         case .education:
             VStack(alignment: .leading, spacing: 15) {

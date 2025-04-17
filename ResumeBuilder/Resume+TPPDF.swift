@@ -58,14 +58,19 @@ extension Skills {
 }
 
 extension WorkExperienceCollection {
+
     func configure(document: PDFDocument) throws {
+        document.add(attributedText: attributedHeader)
+        document.add(space: 20)
         for exp in items {
             try exp.configure(document: document)
+            document.add(space: 20)
         }
     }
 }
 
 extension WorkExperience {
+
     func configure(document: PDFDocument) throws {
         // Table
         let table = PDFTable(rows: 2, columns: 2)

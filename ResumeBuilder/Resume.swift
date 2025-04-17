@@ -12,6 +12,7 @@ import PDFKit
     var personalInfo = PersonalInfo.mock
     var skills = Skills.mock
     var workExperienceCollection = WorkExperienceCollection.mock
+    var educationCollection = EducationCollection.mock
 
     var pdfDocument: PDFDocument {
         guard let data = try? pdfData(),

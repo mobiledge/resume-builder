@@ -98,23 +98,7 @@ struct NavigationContentView: View {
             WorkExperienceForm(collection: resume.workExperienceCollection)
 
         case .education:
-            VStack(alignment: .leading, spacing: 15) {
-                EducationItem(
-                    degree: "M.S. Computer Science",
-                    institution: "Tech University",
-                    year: "2017",
-                    details: "Focus on Mobile Computing"
-                )
-                EducationItem(
-                    degree: "B.S. Computer Science",
-                    institution: "State University",
-                    year: "2015",
-                    details: "Minor in Design"
-                )
-            }
-            .padding()
-            .background(.secondary)
-            .cornerRadius(10)
+            EducationForm(collection: resume.educationCollection)
         }
     }
 }

@@ -95,23 +95,8 @@ struct NavigationContentView: View {
             SkillsForm(skills: resume.skills)
 
         case .experience:
-            VStack(alignment: .leading, spacing: 15) {
-                ExperienceItem(
-                    role: "Senior iOS Developer",
-                    company: "Tech Innovations Inc.",
-                    period: "2020-Present",
-                    description: "Lead developer for multiple iOS applications with SwiftUI"
-                )
-                ExperienceItem(
-                    role: "iOS Developer",
-                    company: "Mobile Solutions LLC",
-                    period: "2017-2020",
-                    description: "Worked on various client projects using UIKit and Swift"
-                )
-            }
-            .padding()
-            .background(.secondary)
-            .cornerRadius(10)
+            WorkExperienceForm(col: resume.workExperienceCollection)
+
         case .education:
             VStack(alignment: .leading, spacing: 15) {
                 EducationItem(

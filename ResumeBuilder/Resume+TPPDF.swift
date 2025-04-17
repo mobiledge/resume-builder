@@ -23,7 +23,7 @@ extension Resume {
         document.add(space: 20)
         skills.configure(document: document)
         document.add(space: 20)
-        try workExp.configure(document: document)
+        try workExperienceCollection.configure(document: document)
     }
 }
 
@@ -53,6 +53,14 @@ extension Skills {
         for attr in attributedSkills {
             document.add(attributedText: attr)
             document.add(space: 5)
+        }
+    }
+}
+
+extension WorkExperienceCollection {
+    func configure(document: PDFDocument) throws {
+        for exp in items {
+            try exp.configure(document: document)
         }
     }
 }

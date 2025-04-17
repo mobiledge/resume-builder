@@ -11,8 +11,8 @@ import PDFKit
 @Observable class Resume {
     var personalInfo = PersonalInfo.mock
     var skills = Skills.mock
-    var workExp = WorkExperience.mock
-    
+    var workExperienceCollection = WorkExperienceCollection.mock
+
     var pdfDocument: PDFDocument {
         guard let data = try? pdfData(),
               let doc = PDFDocument(data: data) else {
@@ -29,7 +29,7 @@ import PDFKit
     var email: String = ""
     var phone: String = ""
     var summary: String = ""
-    
+
     internal init(
         name: String = "",
         title: String = "",
@@ -45,8 +45,8 @@ import PDFKit
         self.phone = phone
         self.summary = summary
     }
-    
-    
+
+
     static var mock: PersonalInfo = PersonalInfo(
         name: "John Doe",
         title: "Software Developer",
@@ -59,11 +59,11 @@ import PDFKit
 
 @Observable class Skills {
     var items: [Skill]
-    
+
     init(items: [Skill]) {
         self.items = items
     }
-    
+
     static let mock = Skills(items: [
         Skill(category: "Frontend", values: "JavaScript, TypeScript, React, Vue.js, Angular, CSS3, HTML5, Webpack"),
         Skill(category: "Backend", values: "Node.js, Express, Django, Ruby on Rails, REST APIs, GraphQL"),
@@ -71,19 +71,19 @@ import PDFKit
         Skill(category: "DevOps", values: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions, Netlify, Vercel"),
         Skill(category: "Tools", values: "Git, VSCode, npm, Yarn, Jest, Cypress, Storybook, Figma")
     ])
-    
+
 }
 
 @Observable class Skill: Identifiable, Equatable {
     let id = UUID()
     var category: String
     var values: String
-    
+
     init(category: String, values: String) {
         self.category = category
         self.values = values
     }
-    
+
     static func == (lhs: Skill, rhs: Skill) -> Bool {
         lhs.id == rhs.id
     }
@@ -91,15 +91,15 @@ import PDFKit
 
 @Observable class WorkExperienceCollection {
     var items: [WorkExperience]
-    
+
     internal init(items: [WorkExperience]) {
         self.items = items
     }
-    
+
     static var mock: WorkExperienceCollection {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        
+
         return WorkExperienceCollection(items: [
             WorkExperience(
                 companyName: "Tech Innovations Inc.",
@@ -150,7 +150,7 @@ import PDFKit
     var endDate: Date? = nil
     var isCurrentPosition: Bool = false
     var description: String = ""
-    
+
     init(
         companyName: String,
         position: String,
@@ -168,7 +168,7 @@ import PDFKit
         self.isCurrentPosition = isCurrentPosition
         self.description = description
     }
-    
+
     static var mock: WorkExperience {
         let mockExperience = WorkExperience(
             companyName: "Apple Inc.",

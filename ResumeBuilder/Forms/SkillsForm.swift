@@ -3,6 +3,12 @@ import SwiftUI
 typealias DeleteSkillHandler = (Skill) -> Void
 typealias AddSkillHandler = (Skill) -> Void
 
+typealias CanMoveUpHandler = (Skill) -> Bool
+typealias MoveUpHandler = (Skill) -> Void
+
+typealias CanMoveDownHandler = (Skill) -> Bool
+typealias MoveDownHandler = (Skill) -> Void
+
 struct SkillsForm: View {
     @Bindable var skills: Skills
     @State private var newSkill = Skill(category: "", values: "")
@@ -12,7 +18,11 @@ struct SkillsForm: View {
             ForEach(skills.items) { skill in
                 SkillSection(
                     skill: skill,
-                    deleteSkillHandler: deleteSkill(_:)
+                    deleteSkillHandler: deleteSkill(_:),
+                    canMoveUpHandler: canMoveUp(_:),
+                    moveUpHandler: moveUp(_:),
+                    canMoveDownHandler: canMoveDown(_:),
+                    moveDownHandler: moveDown(_:)
                 )
             }
 
@@ -36,6 +46,46 @@ struct SkillsForm: View {
             skills.items.append(skill)
             // Reset the new skill form after adding
             newSkill = Skill(category: "", values: "")
+        }
+    }
+
+    func canMoveUp(_ skill: Skill) -> Bool {
+        // Check if the skill exists in the array and is not the first item
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }) else {
+            return false
+        }
+        return index > 0
+    }
+
+    func moveUp(_ skill: Skill) -> Void {
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }),
+              canMoveUp(skill) else {
+            return
+        }
+
+        // Swap the skill with the one above it
+        withAnimation {
+            skills.items.swapAt(index, index - 1)
+        }
+    }
+
+    func canMoveDown(_ skill: Skill) -> Bool {
+        // Check if the skill exists in the array and is not the last item
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }) else {
+            return false
+        }
+        return index < skills.items.count - 1
+    }
+
+    func moveDown(_ skill: Skill) -> Void {
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }),
+              canMoveDown(skill) else {
+            return
+        }
+
+        // Swap the skill with the one below it
+        withAnimation {
+            skills.items.swapAt(index, index + 1)
         }
     }
 }
@@ -76,6 +126,10 @@ struct AddSkillSection: View {
 struct SkillSection: View {
     @Bindable var skill: Skill
     let deleteSkillHandler: DeleteSkillHandler
+    let canMoveUpHandler: CanMoveUpHandler
+    let moveUpHandler: MoveUpHandler
+    let canMoveDownHandler: CanMoveDownHandler
+    let moveDownHandler: MoveDownHandler
 
     var body: some View {
         Section {
@@ -107,20 +161,22 @@ struct SkillSection: View {
             Spacer()
 
             Button(action: {
-                print("Move Down!")
+                moveDownHandler(skill)
             }, label: {
-                Label("Move Down!", systemImage: "arrowshape.down")
+                Label("Move Down", systemImage: "arrowshape.down")
                     .labelStyle(.iconOnly)
                     .font(.caption)
             })
+            .disabled(!canMoveDownHandler(skill))
 
             Button(action: {
-                print("Move Up!")
+                moveUpHandler(skill)
             }, label: {
-                Label("Move Up!", systemImage: "arrowshape.up")
+                Label("Move Up", systemImage: "arrowshape.up")
                     .labelStyle(.iconOnly)
                     .font(.caption)
             })
+            .disabled(!canMoveUpHandler(skill))
 
             Button(action: deleteSkill) {
                 Label("Delete", systemImage: "trash")
@@ -135,4 +191,8 @@ struct SkillSection: View {
     func deleteSkill() {
         deleteSkillHandler(skill)
     }
+}
+
+#Preview {
+    SkillsForm(skills: Skills.mock)
 }

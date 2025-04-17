@@ -24,6 +24,10 @@ struct WorkExperienceForm: View {
                     deleteHandler: deleteWorkExperience(_:)
                 )
             }
+
+            AddExperienceSection(
+                addHandler: addWorkExperience(_:)
+            )
         }
         .formStyle(.grouped)
     }
@@ -116,8 +120,6 @@ struct WorkExperienceSection: View {
                 displayedComponents: .date
             )
 
-            Toggle("Current Position", isOn: $experience.isCurrentPosition)
-
             if !experience.isCurrentPosition {
                 DatePicker(
                     "End Date",
@@ -128,6 +130,8 @@ struct WorkExperienceSection: View {
                     displayedComponents: .date
                 )
             }
+
+            Toggle("Current Position", isOn: $experience.isCurrentPosition)
 
             TextEditor(text: $experience.description)
                 .textEditorStyle(.plain)
@@ -172,7 +176,77 @@ struct WorkExperienceSection: View {
     }
 }
 
+struct AddExperienceSection: View {
+    @State private var experience = WorkExperience.empty
+    fileprivate let addHandler: AddHandler
+
+    // Date formatter for displaying dates
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    var body: some View {
+
+        Section("Add Work Experience") {
+            TextField("Company Name", text: $experience.companyName)
+
+            TextField("Position", text: $experience.position)
+
+            TextField("Location", text: $experience.location)
+
+            DatePicker(
+                "Start Date",
+                selection: Binding(
+                    get: { experience.startDate ?? Date() },
+                    set: { experience.startDate = $0 }
+                ),
+                displayedComponents: .date
+            )
+
+            if !experience.isCurrentPosition {
+                DatePicker(
+                    "End Date",
+                    selection: Binding(
+                        get: { experience.endDate ?? Date() },
+                        set: { experience.endDate = $0 }
+                    ),
+                    displayedComponents: .date
+                )
+            }
+
+            Toggle("Current Position", isOn: $experience.isCurrentPosition)
+
+            TextEditor(text: $experience.description)
+                .textEditorStyle(.plain)
+                .frame(minHeight: 60)
+
+            addButton
+        }
+    }
+
+    var addButton: some View {
+        HStack(spacing: 20) {
+            Spacer()
+            Button("Add", systemImage: "plus") {
+                addHandler(experience)
+                experience = WorkExperience.empty //reset
+            }
+            .buttonStyle(.plain)
+            .disabled(experience.companyName.isEmpty)
+        }
+    }
+}
+
 #Preview {
     WorkExperienceForm(collection: WorkExperienceCollection.mock)
 }
 
+#Preview {
+    Form {
+        AddExperienceSection { _ in}
+    }
+    .formStyle(.grouped)
+}

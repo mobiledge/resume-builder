@@ -170,7 +170,7 @@ import PDFKit
     }
 
     static var mock: WorkExperience {
-        let mockExperience = WorkExperience(
+        WorkExperience(
             companyName: "Apple Inc.",
             position: "iOS Developer",
             location: "Cupertino, CA",
@@ -178,6 +178,17 @@ import PDFKit
             isCurrentPosition: true,
             description: "• Developed and maintained multiple iOS applications using Swift and UIKit\n• Collaborated with design and product teams to create intuitive user interfaces\n• Implemented new features and fixed bugs in existing applications"
         )
-        return mockExperience
+    }
+
+    static var empty: WorkExperience {
+        WorkExperience(
+            companyName: "",
+            position: "",
+            location: "",
+            startDate: nil,
+            endDate: nil,
+            isCurrentPosition: false,
+            description: ""
+        )
     }
 }

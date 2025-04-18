@@ -42,6 +42,48 @@ import PDFKit
         workExperienceCollection: WorkExperienceCollection.mock,
         educationCollection: EducationCollection.mock
     )
+
+
+    // MARK: - Resume + Skills
+    func delete(skill: Skill) {
+        skills.items.removeAll { $0.id == skill.id }
+    }
+
+    func add(skill: Skill) {
+        skills.items.append(skill)
+    }
+
+    func canMoveUp(skill: Skill) -> Bool {
+        // Check if the skill exists in the array and is not the first item
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }) else {
+            return false
+        }
+        return index > 0
+    }
+
+    func moveUp(skill: Skill) -> Void {
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }),
+              canMoveUp(skill: skill) else {
+            return
+        }
+        skills.items.swapAt(index, index - 1)
+    }
+
+    func canMoveDown(skill: Skill) -> Bool {
+        // Check if the skill exists in the array and is not the last item
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }) else {
+            return false
+        }
+        return index < skills.items.count - 1
+    }
+
+    func moveDown(skill: Skill) -> Void {
+        guard let index = skills.items.firstIndex(where: { $0.id == skill.id }),
+              canMoveDown(skill: skill) else {
+            return
+        }
+        skills.items.swapAt(index, index + 1)
+    }
 }
 
 @Observable class PersonalInfo {
@@ -93,7 +135,6 @@ import PDFKit
         Skill(category: "DevOps", values: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions, Netlify, Vercel"),
         Skill(category: "Tools", values: "Git, VSCode, npm, Yarn, Jest, Cypress, Storybook, Figma")
     ])
-
 }
 
 @Observable class Skill: Identifiable, Equatable {
@@ -330,3 +371,4 @@ import PDFKit
         )
     }
 }
+

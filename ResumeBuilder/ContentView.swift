@@ -95,7 +95,8 @@ struct NavigationContentView: View {
                 .environment(resume.personalInfo)
 
         case .skills:
-            SkillsForm(skills: resume.skills)
+            SkillsForm()
+                .environment(resume.skills)
 
         case .experience:
             WorkExperienceForm(collection: resume.workExperienceCollection)

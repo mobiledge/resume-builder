@@ -47,7 +47,7 @@ extension PersonalInfo {
     }
 }
 
-extension Skills {
+extension SkillCollection {
 
     func configure(document: PDFDocument) {
         document.add(attributedText: attributedHeader)

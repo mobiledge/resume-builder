@@ -8,7 +8,7 @@ fileprivate typealias CanMoveDownHandler = (Skill) -> Bool
 fileprivate typealias MoveDownHandler = (Skill) -> Void
 
 struct SkillsForm: View {
-    @Bindable var skills: Skills
+    @Bindable var skills: SkillCollection
     @State private var newSkill = Skill(category: "", values: "")
 
     var body: some View {
@@ -192,5 +192,6 @@ struct SkillSection: View {
 }
 
 #Preview {
-    SkillsForm(skills: Skills.mock)
+    SkillsForm(skills: SkillCollection.mock)
 }
+

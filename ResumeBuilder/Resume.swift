@@ -12,13 +12,13 @@ import PDFKit
 
 
     var personalInfo = PersonalInfo.mock
-    var skills = Skills.mock
+    var skills = SkillCollection.mock
     var workExperienceCollection = WorkExperienceCollection.mock
     var educationCollection = EducationCollection.mock
 
     init(
         personalInfo: PersonalInfo,
-        skills: Skills,
+        skills: SkillCollection,
         workExperienceCollection: WorkExperienceCollection,
         educationCollection: EducationCollection
     ) {
@@ -38,7 +38,7 @@ import PDFKit
 
     static var mock = Resume(
         personalInfo: PersonalInfo.mock,
-        skills: Skills.mock,
+        skills: SkillCollection.mock,
         workExperienceCollection: WorkExperienceCollection.mock,
         educationCollection: EducationCollection.mock
     )
@@ -79,14 +79,14 @@ import PDFKit
     )
 }
 
-@Observable class Skills {
+@Observable class SkillCollection {
     var items: [Skill]
 
     init(items: [Skill]) {
         self.items = items
     }
 
-    static let mock = Skills(items: [
+    static let mock = SkillCollection(items: [
         Skill(category: "Frontend", values: "JavaScript, TypeScript, React, Vue.js, Angular, CSS3, HTML5, Webpack"),
         Skill(category: "Backend", values: "Node.js, Express, Django, Ruby on Rails, REST APIs, GraphQL"),
         Skill(category: "Database", values: "MongoDB, PostgreSQL, MySQL, Redis, Elasticsearch, ORM tools"),

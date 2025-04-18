@@ -33,7 +33,7 @@ extension PersonalInfo {
 
 }
 
-extension Skills {
+extension SkillCollection {
     var attributedHeader: NSAttributedString {
         NSAttributedString(string: "Skills", attributes: attributes(style: .title1))
     }

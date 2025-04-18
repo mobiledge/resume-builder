@@ -8,13 +8,7 @@
 import SwiftUI
 
 struct PersonalInfoForm: View {
-    @Bindable var personalInfo: PersonalInfo
-    @FocusState private var focusedField: FormField?
-
-    enum FormField {
-        case name, title, location, email, phone, summary
-    }
-
+    @Environment(PersonalInfo.self) private var personalInfo
     var body: some View {
         Form {
             PersonalInfoSection(personalInfo: personalInfo)
@@ -82,6 +76,7 @@ struct PersonalInfoSection: View {
 }
 
 struct PersonalInfoSummarySection: View {
+
     @Bindable var personalInfo: PersonalInfo
 
     var body: some View {
@@ -94,5 +89,6 @@ struct PersonalInfoSummarySection: View {
 }
 
 #Preview {
-    PersonalInfoForm(personalInfo: PersonalInfo.mock)
+    PersonalInfoForm()
+        .environment(PersonalInfo.mock)
 }

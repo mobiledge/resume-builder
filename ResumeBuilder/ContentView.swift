@@ -17,7 +17,7 @@ struct ContentView: View {
             SidebarView(selectedSection: $selectedSection)
                 .frame(minWidth: 200)
         } content: {
-            NavigationContentView(section: selectedSection, resume: resume)
+            NavigationContentView(section: selectedSection)
                 .frame(minWidth: 400)
         } detail: {
             PDFViewer(document: resume.pdfDocument)
@@ -83,14 +83,16 @@ struct SidebarView: View {
 
 struct NavigationContentView: View {
     let section: SidebarSection
-    @Bindable var resume: Resume
+
+    @Environment(Resume.self) private var resume
 
     var body: some View {
 
         switch section {
 
         case .personalInfo:
-            PersonalInfoForm(personalInfo: resume.personalInfo)
+            PersonalInfoForm()
+                .environment(resume.personalInfo)
 
         case .skills:
             SkillsForm(skills: resume.skills)
@@ -104,63 +106,3 @@ struct NavigationContentView: View {
     }
 }
 
-struct InfoRow: View {
-    let label: String
-    let value: String
-
-    var body: some View {
-        HStack(alignment: .top) {
-            Text(label)
-                .font(.headline)
-                .frame(width: 80, alignment: .leading)
-            Text(value)
-                .font(.body)
-        }
-    }
-}
-
-struct ExperienceItem: View {
-    let role: String
-    let company: String
-    let period: String
-    let description: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(role)
-                .font(.headline)
-            Text(company)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text(period)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            Text(description)
-                .font(.body)
-                .padding(.top, 2)
-        }
-    }
-}
-
-struct EducationItem: View {
-    let degree: String
-    let institution: String
-    let year: String
-    let details: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(degree)
-                .font(.headline)
-            Text(institution)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text(year)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            Text(details)
-                .font(.body)
-                .padding(.top, 2)
-        }
-    }
-}

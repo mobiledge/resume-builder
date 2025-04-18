@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ResumeBuilderApp: App {
+
+    @State var resume = Resume.mock
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(resume)
         }
     }
 }

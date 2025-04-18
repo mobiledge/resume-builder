@@ -9,10 +9,24 @@ import Foundation
 import PDFKit
 
 @Observable class Resume {
+
+
     var personalInfo = PersonalInfo.mock
     var skills = Skills.mock
     var workExperienceCollection = WorkExperienceCollection.mock
     var educationCollection = EducationCollection.mock
+
+    init(
+        personalInfo: PersonalInfo,
+        skills: Skills,
+        workExperienceCollection: WorkExperienceCollection,
+        educationCollection: EducationCollection
+    ) {
+        self.personalInfo = personalInfo
+        self.skills = skills
+        self.workExperienceCollection = workExperienceCollection
+        self.educationCollection = educationCollection
+    }
 
     var pdfDocument: PDFDocument {
         guard let data = try? pdfData(),
@@ -21,6 +35,13 @@ import PDFKit
         }
         return doc
     }
+
+    static var mock = Resume(
+        personalInfo: PersonalInfo.mock,
+        skills: Skills.mock,
+        workExperienceCollection: WorkExperienceCollection.mock,
+        educationCollection: EducationCollection.mock
+    )
 }
 
 @Observable class PersonalInfo {

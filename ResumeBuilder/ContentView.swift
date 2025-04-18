@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State var resume = Resume()
+    @Environment(Resume.self) private var resume
     @State private var selectedSection: SidebarSection = .skills
 
     var body: some View {
@@ -29,6 +29,7 @@ struct ContentView: View {
 
 #Preview(traits: .sizeThatFitsLayout) {
     ContentView()
+        .environment(Resume.mock)
 }
 
 enum SidebarSection: String, CaseIterable, Identifiable {

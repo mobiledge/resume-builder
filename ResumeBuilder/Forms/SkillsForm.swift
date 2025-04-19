@@ -1,12 +1,5 @@
 import SwiftUI
 
-fileprivate typealias DeleteSkillHandler = (Skill) -> Void
-fileprivate typealias AddSkillHandler = (Skill) -> Void
-fileprivate typealias CanMoveUpHandler = (Skill) -> Bool
-fileprivate typealias MoveUpHandler = (Skill) -> Void
-fileprivate typealias CanMoveDownHandler = (Skill) -> Bool
-fileprivate typealias MoveDownHandler = (Skill) -> Void
-
 struct SkillsForm: View {
 
     @Environment(SkillCollection.self) private var skills
@@ -169,6 +162,6 @@ struct AddSkillSection: View {
 #Preview {
     SkillsForm()
         .environment(Resume.mock)
-        .environment(SkillCollection.mock)
+        .environment(Resume.mock.skills)
 }
 

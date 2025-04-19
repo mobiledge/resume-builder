@@ -1,98 +1,26 @@
 import SwiftUI
 
-fileprivate typealias DeleteHandler = (WorkExperience) -> Void
-fileprivate typealias AddHandler = (WorkExperience) -> Void
-fileprivate typealias CanMoveUpHandler = (WorkExperience) -> Bool
-fileprivate typealias MoveUpHandler = (WorkExperience) -> Void
-fileprivate typealias CanMoveDownHandler = (WorkExperience) -> Bool
-fileprivate typealias MoveDownHandler = (WorkExperience) -> Void
-
 struct WorkExperienceForm: View {
 
-    @Bindable var collection: WorkExperienceCollection
+    @Environment(WorkExperienceCollection.self) var collection
 
     var body: some View {
 
         Form {
             ForEach(collection.items) { exp in
-                WorkExperienceSection(
-                    experience: exp,
-                    canMoveUpHandler: canMoveUp(_:),
-                    moveUpHandler: moveUp(_:),
-                    canMoveDownHandler: canMoveDown(_:),
-                    moveDownHandler: moveDown(_:),
-                    deleteHandler: deleteWorkExperience(_:)
-                )
+                WorkExperienceSection(experience: exp)
             }
 
-            AddExperienceSection(
-                addHandler: addWorkExperience(_:)
-            )
+            AddExperienceSection()
         }
         .formStyle(.grouped)
-    }
-
-    func deleteWorkExperience(_ experience: WorkExperience) {
-        withAnimation {
-            collection.items.removeAll { $0.id == experience.id }
-        }
-    }
-
-    func addWorkExperience(_ experience: WorkExperience) {
-        withAnimation {
-            collection.items.append(experience)
-        }
-    }
-
-    func canMoveUp(_ experience: WorkExperience) -> Bool {
-        // Check if the experience exists in the array and is not the first item
-        guard let index = collection.items.firstIndex(where: { $0.id == experience.id }) else {
-            return false
-        }
-        return index > 0
-    }
-
-    func moveUp(_ experience: WorkExperience) -> Void {
-        guard let index = collection.items.firstIndex(where: { $0.id == experience.id }),
-              canMoveUp(experience) else {
-            return
-        }
-
-        // Swap the experience with the one above it
-        withAnimation {
-            collection.items.swapAt(index, index - 1)
-        }
-    }
-
-    func canMoveDown(_ experience: WorkExperience) -> Bool {
-        // Check if the experience exists in the array and is not the last item
-        guard let index = collection.items.firstIndex(where: { $0.id == experience.id }) else {
-            return false
-        }
-        return index < collection.items.count - 1
-    }
-
-    func moveDown(_ experience: WorkExperience) -> Void {
-        guard let index = collection.items.firstIndex(where: { $0.id == experience.id }),
-              canMoveDown(experience) else {
-            return
-        }
-
-        // Swap the experience with the one below it
-        withAnimation {
-            collection.items.swapAt(index, index + 1)
-        }
+        .animation(.spring(duration: 0.3), value: collection.items) // Animate when items array changes
     }
 }
 
 struct WorkExperienceSection: View {
     @Bindable var experience: WorkExperience
-
-    fileprivate let canMoveUpHandler: CanMoveUpHandler
-    fileprivate let moveUpHandler: MoveUpHandler
-    fileprivate let canMoveDownHandler: CanMoveDownHandler
-    fileprivate let moveDownHandler: MoveDownHandler
-    fileprivate let deleteHandler: DeleteHandler
+    @Environment(Resume.self) private var resume
 
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
@@ -103,82 +31,130 @@ struct WorkExperienceSection: View {
     }()
 
     var body: some View {
-
         Section(experience.companyName) {
-            TextField("Company Name", text: $experience.companyName)
-
-            TextField("Position", text: $experience.position)
-
-            TextField("Location", text: $experience.location)
-
-            DatePicker(
-                "Start Date",
-                selection: Binding(
-                    get: { experience.startDate ?? Date() },
-                    set: { experience.startDate = $0 }
-                ),
-                displayedComponents: .date
-            )
+            companyNameField
+            positionField
+            locationField
+            startDatePicker
 
             if !experience.isCurrentPosition {
-                DatePicker(
-                    "End Date",
-                    selection: Binding(
-                        get: { experience.endDate ?? Date() },
-                        set: { experience.endDate = $0 }
-                    ),
-                    displayedComponents: .date
-                )
+                endDatePicker
             }
 
-            Toggle("Current Position", isOn: $experience.isCurrentPosition)
-
-            TextEditor(text: $experience.description)
-                .textEditorStyle(.plain)
-                .frame(minHeight: 60)
-
+            currentPositionToggle
+            descriptionEditor
             actionButtons
         }
+    }
+
+    var companyNameField: some View {
+        TextField("Company Name", text: $experience.companyName)
+    }
+
+    var positionField: some View {
+        TextField("Position", text: $experience.position)
+    }
+
+    var locationField: some View {
+        TextField("Location", text: $experience.location)
+    }
+
+    var startDatePicker: some View {
+        DatePicker(
+            "Start Date",
+            selection: Binding(
+                get: { experience.startDate ?? Date() },
+                set: { experience.startDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var endDatePicker: some View {
+        DatePicker(
+            "End Date",
+            selection: Binding(
+                get: { experience.endDate ?? Date() },
+                set: { experience.endDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var currentPositionToggle: some View {
+        Toggle("Current Position", isOn: $experience.isCurrentPosition)
+    }
+
+    var descriptionEditor: some View {
+        TextEditor(text: $experience.description)
+            .textEditorStyle(.plain)
+            .frame(minHeight: 60)
     }
 
     var actionButtons: some View {
         HStack(spacing: 20) {
             Spacer()
-
-            Button(action: {
-                moveDownHandler(experience)
-            }, label: {
-                Label("Move Down", systemImage: "arrowshape.down")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
-            .disabled(!canMoveDownHandler(experience))
-
-            Button(action: {
-                moveUpHandler(experience)
-            }, label: {
-                Label("Move Up", systemImage: "arrowshape.up")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
-            .disabled(!canMoveUpHandler(experience))
-
-            Button(action: {
-                deleteHandler(experience)
-            }, label: {
-                Label("Delete", systemImage: "trash")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
+            moveDownButton
+            moveUpButton
+            deleteButton
         }
         .buttonStyle(.plain)
         .foregroundStyle(Color.secondary)
     }
+
+    var moveDownButton: some View {
+        Button(action: moveDown) {
+            Label("Move Down", systemImage: "arrowshape.down")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+        .disabled(!canMoveDown())
+    }
+
+    var moveUpButton: some View {
+        Button(action: moveUp) {
+            Label("Move Up", systemImage: "arrowshape.up")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+        .disabled(!canMoveUp())
+    }
+
+    var deleteButton: some View {
+        Button(action: delete) {
+            Label("Delete", systemImage: "trash")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+    }
+
+    // MARK: - Private Action Functions
+
+    private func moveDown() {
+        resume.moveDown(experience: experience)
+    }
+
+    private func canMoveDown() -> Bool {
+        resume.canMoveDown(experience: experience)
+    }
+
+    private func moveUp() {
+        resume.moveUp(experience: experience)
+    }
+
+    private func canMoveUp() -> Bool {
+        resume.canMoveUp(experience: experience)
+    }
+
+    private func delete() {
+        resume.delete(experience: experience)
+    }
 }
 
 struct AddExperienceSection: View {
+
+    @Environment(Resume.self) private var resume
     @State private var experience = WorkExperience.empty
-    fileprivate let addHandler: AddHandler
 
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
@@ -189,64 +165,98 @@ struct AddExperienceSection: View {
     }()
 
     var body: some View {
-
         Section("Add Work Experience") {
-            TextField("Company Name", text: $experience.companyName)
-
-            TextField("Position", text: $experience.position)
-
-            TextField("Location", text: $experience.location)
-
-            DatePicker(
-                "Start Date",
-                selection: Binding(
-                    get: { experience.startDate ?? Date() },
-                    set: { experience.startDate = $0 }
-                ),
-                displayedComponents: .date
-            )
+            companyNameField
+            positionField
+            locationField
+            startDatePicker
 
             if !experience.isCurrentPosition {
-                DatePicker(
-                    "End Date",
-                    selection: Binding(
-                        get: { experience.endDate ?? Date() },
-                        set: { experience.endDate = $0 }
-                    ),
-                    displayedComponents: .date
-                )
+                endDatePicker
             }
 
-            Toggle("Current Position", isOn: $experience.isCurrentPosition)
+            currentPositionToggle
+            descriptionEditor
+            addButtonRow
+        }
+    }
 
-            TextEditor(text: $experience.description)
-                .textEditorStyle(.plain)
-                .frame(minHeight: 60)
+    var companyNameField: some View {
+        TextField("Company Name", text: $experience.companyName)
+    }
 
+    var positionField: some View {
+        TextField("Position", text: $experience.position)
+    }
+
+    var locationField: some View {
+        TextField("Location", text: $experience.location)
+    }
+
+    var startDatePicker: some View {
+        DatePicker(
+            "Start Date",
+            selection: Binding(
+                get: { experience.startDate ?? Date() },
+                set: { experience.startDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var endDatePicker: some View {
+        DatePicker(
+            "End Date",
+            selection: Binding(
+                get: { experience.endDate ?? Date() },
+                set: { experience.endDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var currentPositionToggle: some View {
+        Toggle("Current Position", isOn: $experience.isCurrentPosition)
+    }
+
+    var descriptionEditor: some View {
+        TextEditor(text: $experience.description)
+            .textEditorStyle(.plain)
+            .frame(minHeight: 60)
+    }
+
+    var addButtonRow: some View {
+        HStack(spacing: 20) {
+            Spacer()
             addButton
         }
     }
 
     var addButton: some View {
-        HStack(spacing: 20) {
-            Spacer()
-            Button("Add", systemImage: "plus") {
-                addHandler(experience)
-                experience = WorkExperience.empty //reset
-            }
-            .buttonStyle(.plain)
-            .disabled(experience.companyName.isEmpty)
+        Button(action: add) {
+            Text("Add")
         }
+        .disabled(experience.position.isEmpty)
+    }
+
+    // MARK: - Private Action Functions
+
+    private func add() {
+        resume.add(experience: experience)
+        experience = WorkExperience.empty
+    }
+
+    private func canAdd() -> Bool {
+        return !experience.companyName.isEmpty
+    }
+
+    private func resetExperience() {
+
     }
 }
 
 #Preview {
-    WorkExperienceForm(collection: WorkExperienceCollection.mock)
-}
-
-#Preview {
-    Form {
-        AddExperienceSection { _ in}
-    }
-    .formStyle(.grouped)
+    WorkExperienceForm()
+        .environment(Resume.mock)
+        .environment(Resume.mock.workExperienceCollection)
 }

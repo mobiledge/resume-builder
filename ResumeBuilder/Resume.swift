@@ -84,6 +84,48 @@ import PDFKit
         }
         skills.items.swapAt(index, index + 1)
     }
+
+
+    // MARK: - Resume + WorkExperience
+    func delete(experience: WorkExperience) {
+        workExperienceCollection.items.removeAll { $0.id == experience.id }
+    }
+
+    func add(experience: WorkExperience) {
+        workExperienceCollection.items.append(experience)
+    }
+
+    func canMoveUp(experience: WorkExperience) -> Bool {
+        // Check if the workExperience exists in the array and is not the first item
+        guard let index = workExperienceCollection.items.firstIndex(where: { $0.id == experience.id }) else {
+            return false
+        }
+        return index > 0
+    }
+
+    func moveUp(experience: WorkExperience) -> Void {
+        guard let index = workExperienceCollection.items.firstIndex(where: { $0.id == experience.id }),
+              canMoveUp(experience: experience) else {
+            return
+        }
+        workExperienceCollection.items.swapAt(index, index - 1)
+    }
+
+    func canMoveDown(experience: WorkExperience) -> Bool {
+        // Check if the workExperience exists in the array and is not the last item
+        guard let index = workExperienceCollection.items.firstIndex(where: { $0.id == experience.id }) else {
+            return false
+        }
+        return index < workExperienceCollection.items.count - 1
+    }
+
+    func moveDown(experience: WorkExperience) -> Void {
+        guard let index = workExperienceCollection.items.firstIndex(where: { $0.id == experience.id }),
+              canMoveDown(experience: experience) else {
+            return
+        }
+        workExperienceCollection.items.swapAt(index, index + 1)
+    }
 }
 
 @Observable class PersonalInfo {
@@ -137,6 +179,7 @@ import PDFKit
     ])
 }
 
+// Equatable needed for animation
 @Observable class Skill: Identifiable, Equatable {
     let id = UUID()
     var category: String
@@ -205,7 +248,7 @@ import PDFKit
     }
 }
 
-@Observable class WorkExperience: Identifiable {
+@Observable class WorkExperience: Identifiable, Equatable {
     let id = UUID()
     var companyName: String = ""
     var position: String = ""
@@ -254,6 +297,10 @@ import PDFKit
             isCurrentPosition: false,
             description: ""
         )
+    }
+
+    static func == (lhs: WorkExperience, rhs: WorkExperience) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

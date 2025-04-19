@@ -17,7 +17,8 @@ struct ContentView: View {
             SidebarView(selectedSection: $selectedSection)
                 .frame(minWidth: 200)
         } content: {
-            NavigationContentView(section: selectedSection)
+//            NavigationContentView(section: selectedSection)
+            NavigationContentView2()
                 .frame(minWidth: 400)
         } detail: {
             PDFViewer(document: resume.pdfDocument)
@@ -102,6 +103,38 @@ struct NavigationContentView: View {
         case .education:
             EducationForm()
         }
+    }
+}
+
+struct NavigationContentView2: View {
+
+    @Environment(Resume.self) private var resume
+
+    var body: some View {
+
+        Form {
+            PersonalInfoSection(personalInfo: resume.personalInfo)
+            PersonalInfoSummarySection(personalInfo: resume.personalInfo)
+
+            Group {
+                Text("Skills").font(.title)
+                ForEach(resume.skills.items) { skill in
+                    SkillSection(skill: skill)
+                }
+                AddSkillSection()
+            }
+
+            ForEach(resume.workExperienceCollection.items) { exp in
+                WorkExperienceSection(experience: exp)
+            }
+            AddExperienceSection()
+
+            ForEach(resume.educationCollection.items) { edu in
+                EducationSection(education: edu)
+            }
+            AddEducationSection()
+        }
+        .formStyle(.grouped)
     }
 }
 

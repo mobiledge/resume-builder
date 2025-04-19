@@ -1,12 +1,5 @@
 import SwiftUI
 
-fileprivate typealias DeleteHandler = (Education) -> Void
-fileprivate typealias AddHandler = (Education) -> Void
-fileprivate typealias CanMoveUpHandler = (Education) -> Bool
-fileprivate typealias MoveUpHandler = (Education) -> Void
-fileprivate typealias CanMoveDownHandler = (Education) -> Bool
-fileprivate typealias MoveDownHandler = (Education) -> Void
-
 struct EducationForm: View {
 
     @Environment(Resume.self) var resume

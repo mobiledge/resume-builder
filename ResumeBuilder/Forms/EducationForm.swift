@@ -183,11 +183,11 @@ struct AddEducationSection: View {
             currentlyStudyingToggle
             addButtonRow
         } header: {
-            SectionHeader(
-                section: .education,
-                isFirst: resume.educationCollection.items.isEmpty,
-                title: "Add New Education"
-            )
+            if resume.educationCollection.items.isEmpty {
+                SectionHeaderView(style: .both("Education", "Add New Education"))
+            } else {
+                SectionHeaderView(style: .subheader("Add New Education"))
+            }
         }
     }
 

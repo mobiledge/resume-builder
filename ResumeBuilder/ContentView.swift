@@ -17,8 +17,7 @@ struct ContentView: View {
             SidebarView(selectedSection: $selectedSection)
                 .frame(minWidth: 200)
         } content: {
-//            NavigationContentView(section: selectedSection)
-            NavigationContentView2()
+            NavigationContentView()
                 .frame(minWidth: 400)
         } detail: {
             PDFViewer(document: resume.pdfDocument)
@@ -83,30 +82,6 @@ struct SidebarView: View {
 }
 
 struct NavigationContentView: View {
-    let section: SidebarSection
-
-    @Environment(Resume.self) private var resume
-
-    var body: some View {
-
-        switch section {
-
-        case .personalInfo:
-            PersonalInfoForm()
-
-        case .skills:
-            SkillsForm()
-
-        case .experience:
-            WorkExperienceForm()
-
-        case .education:
-            EducationForm()
-        }
-    }
-}
-
-struct NavigationContentView2: View {
 
     @Environment(Resume.self) private var resume
 
@@ -132,27 +107,5 @@ struct NavigationContentView2: View {
             AddEducationSection()
         }
         .formStyle(.grouped)
-    }
-}
-
-struct SectionHeader: View {
-
-    let section: SidebarSection
-    let isFirst: Bool
-    let title: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-
-            if isFirst {
-                Text(section.title)
-                    .font(.title)
-                    .foregroundStyle(Color(nsColor: .headerTextColor))
-            }
-
-            Text(title)
-                .font(.headline)
-                .foregroundStyle(Color(nsColor: .headerTextColor))
-        }
     }
 }

@@ -26,8 +26,13 @@ struct SkillSection: View {
             categoryTextField
             skillsTextField
             actionButtons
+        } header: {
+            if resume.canMoveUp(skill: skill) {
+                SectionHeaderView(style: .none)
+            } else {
+                SectionHeaderView(style: .header("Skills"))
+            }
         }
-        .transition(.slide) // Add transition for the whole section
     }
 
     var categoryTextField: some View {
@@ -113,10 +118,16 @@ struct AddSkillSection: View {
     @Environment(Resume.self) private var resume
 
     var body: some View {
-        Section("Add New Skill") {
+        Section {
             categoryTextField
             skillsTextField
             addButtonRow
+        } header: {
+            if resume.skills.items.isEmpty {
+                SectionHeaderView(style: .both("Skills", "Add New Skill"))
+            } else {
+                SectionHeaderView(style: .subheader("Add New Skill"))
+            }
         }
     }
 

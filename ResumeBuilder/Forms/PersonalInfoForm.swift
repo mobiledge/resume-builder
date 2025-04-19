@@ -32,7 +32,7 @@ struct PersonalInfoSection: View {
 
 
     var body: some View {
-        Section("Personal Information") {
+        Section {
 
             TextField(text: $personalInfo.name, prompt: Text("Enter Name")) {
                 Text("Name")
@@ -73,6 +73,8 @@ struct PersonalInfoSection: View {
             }
             .focused($focusedField, equals: .phone)
             .textContentType(.telephoneNumber)
+        } header: {
+            SectionHeaderView(style: .header("Contact"))
         }
     }
 }
@@ -82,12 +84,13 @@ struct PersonalInfoSummarySection: View {
     @Bindable var personalInfo: PersonalInfo
 
     var body: some View {
-        Section("Summary") {
+        Section {
             TextEditor(text: $personalInfo.summary)
                 .textEditorStyle(.plain)
+        } header: {
+            SectionHeaderView(style: .header("Summary"))
         }
     }
-
 }
 
 #Preview {

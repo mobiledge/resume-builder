@@ -30,7 +30,7 @@ struct EducationSection: View {
     }()
 
     var body: some View {
-        Section(education.institution) {
+        Section {
             institutionField
             degreeField
             fieldOfStudyField
@@ -43,6 +43,12 @@ struct EducationSection: View {
 
             currentlyStudyingToggle
             actionButtons
+        } header: {
+            if resume.canMoveUp(education: education) {
+                SectionHeaderView(style: .subheader(education.degree))
+            } else {
+                SectionHeaderView(style: .both("Education", education.degree))
+            }
         }
     }
 
@@ -163,7 +169,7 @@ struct AddEducationSection: View {
     }()
 
     var body: some View {
-        Section("Add Education") {
+        Section {
             institutionField
             degreeField
             fieldOfStudyField
@@ -176,6 +182,12 @@ struct AddEducationSection: View {
 
             currentlyStudyingToggle
             addButtonRow
+        } header: {
+            SectionHeader(
+                section: .education,
+                isFirst: resume.educationCollection.items.isEmpty,
+                title: "Add New Education"
+            )
         }
     }
 

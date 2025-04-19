@@ -116,13 +116,10 @@ struct NavigationContentView2: View {
             PersonalInfoSection(personalInfo: resume.personalInfo)
             PersonalInfoSummarySection(personalInfo: resume.personalInfo)
 
-            Group {
-                Text("Skills").font(.title)
-                ForEach(resume.skills.items) { skill in
-                    SkillSection(skill: skill)
-                }
-                AddSkillSection()
+            ForEach(resume.skills.items) { skill in
+                SkillSection(skill: skill)
             }
+            AddSkillSection()
 
             ForEach(resume.workExperienceCollection.items) { exp in
                 WorkExperienceSection(experience: exp)
@@ -138,3 +135,24 @@ struct NavigationContentView2: View {
     }
 }
 
+struct SectionHeader: View {
+
+    let section: SidebarSection
+    let isFirst: Bool
+    let title: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+
+            if isFirst {
+                Text(section.title)
+                    .font(.title)
+                    .foregroundStyle(Color(nsColor: .headerTextColor))
+            }
+
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(Color(nsColor: .headerTextColor))
+        }
+    }
+}

@@ -30,7 +30,7 @@ struct WorkExperienceSection: View {
     }()
 
     var body: some View {
-        Section(experience.companyName) {
+        Section {
             companyNameField
             positionField
             locationField
@@ -43,6 +43,12 @@ struct WorkExperienceSection: View {
             currentPositionToggle
             descriptionEditor
             actionButtons
+        } header: {
+            if resume.canMoveUp(experience: experience) {
+                SectionHeaderView(style: .subheader(experience.companyName))
+            } else {
+                SectionHeaderView(style: .both("Work Experience", experience.companyName))
+            }
         }
     }
 
@@ -164,7 +170,7 @@ struct AddExperienceSection: View {
     }()
 
     var body: some View {
-        Section("Add Work Experience") {
+        Section {
             companyNameField
             positionField
             locationField
@@ -177,6 +183,12 @@ struct AddExperienceSection: View {
             currentPositionToggle
             descriptionEditor
             addButtonRow
+        } header: {
+            if resume.workExperienceCollection.items.isEmpty {
+                SectionHeaderView(style: .both("Work Experience", "Add New Work Experience"))
+            } else {
+                SectionHeaderView(style: .subheader("Add New Work Experience"))
+            }
         }
     }
 

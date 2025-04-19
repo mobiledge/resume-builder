@@ -9,90 +9,24 @@ fileprivate typealias MoveDownHandler = (Education) -> Void
 
 struct EducationForm: View {
 
-    @Bindable var collection: EducationCollection
+    @Environment(Resume.self) var resume
 
     var body: some View {
 
         Form {
-            ForEach(collection.items) { edu in
-                EducationSection(
-                    education: edu,
-                    canMoveUpHandler: canMoveUp(_:),
-                    moveUpHandler: moveUp(_:),
-                    canMoveDownHandler: canMoveDown(_:),
-                    moveDownHandler: moveDown(_:),
-                    deleteHandler: deleteEducation(_:)
-                )
+            ForEach(resume.educationCollection.items) { edu in
+                EducationSection(education: edu)
             }
 
-            AddEducationSection(
-                addHandler: addEducation(_:)
-            )
+            AddEducationSection()
         }
         .formStyle(.grouped)
-    }
-
-    func deleteEducation(_ education: Education) {
-        withAnimation {
-            collection.items.removeAll { $0.id == education.id }
-        }
-    }
-
-    func addEducation(_ education: Education) {
-        withAnimation {
-            collection.items.append(education)
-        }
-    }
-
-    func canMoveUp(_ education: Education) -> Bool {
-        // Check if the education exists in the array and is not the first item
-        guard let index = collection.items.firstIndex(where: { $0.id == education.id }) else {
-            return false
-        }
-        return index > 0
-    }
-
-    func moveUp(_ education: Education) -> Void {
-        guard let index = collection.items.firstIndex(where: { $0.id == education.id }),
-              canMoveUp(education) else {
-            return
-        }
-
-        // Swap the education with the one above it
-        withAnimation {
-            collection.items.swapAt(index, index - 1)
-        }
-    }
-
-    func canMoveDown(_ education: Education) -> Bool {
-        // Check if the education exists in the array and is not the last item
-        guard let index = collection.items.firstIndex(where: { $0.id == education.id }) else {
-            return false
-        }
-        return index < collection.items.count - 1
-    }
-
-    func moveDown(_ education: Education) -> Void {
-        guard let index = collection.items.firstIndex(where: { $0.id == education.id }),
-              canMoveDown(education) else {
-            return
-        }
-
-        // Swap the education with the one below it
-        withAnimation {
-            collection.items.swapAt(index, index + 1)
-        }
     }
 }
 
 struct EducationSection: View {
     @Bindable var education: Education
-
-    fileprivate let canMoveUpHandler: CanMoveUpHandler
-    fileprivate let moveUpHandler: MoveUpHandler
-    fileprivate let canMoveDownHandler: CanMoveDownHandler
-    fileprivate let moveDownHandler: MoveDownHandler
-    fileprivate let deleteHandler: DeleteHandler
+    @Environment(Resume.self) private var resume
 
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
@@ -103,82 +37,129 @@ struct EducationSection: View {
     }()
 
     var body: some View {
-
         Section(education.institution) {
-            TextField("Institution", text: $education.institution)
-
-            TextField("Degree", text: $education.degree)
-
-            TextField("Field of Study", text: $education.fieldOfStudy)
-
-            TextField("Location", text: $education.location)
-
-            DatePicker(
-                "Start Date",
-                selection: $education.startDate,
-                displayedComponents: .date
-            )
+            institutionField
+            degreeField
+            fieldOfStudyField
+            locationField
+            startDatePicker
 
             if education.endDate != nil {
-                DatePicker(
-                    "End Date",
-                    selection: Binding(
-                        get: { education.endDate ?? Date() },
-                        set: { education.endDate = $0 }
-                    ),
-                    displayedComponents: .date
-                )
+                endDatePicker
             }
 
-            Toggle("Currently Studying", isOn: Binding(
-                get: { education.endDate == nil },
-                set: { isCurrentlyStudying in
-                    education.endDate = isCurrentlyStudying ? nil : Date()
-                }
-            ))
-
+            currentlyStudyingToggle
             actionButtons
         }
+    }
+
+    var institutionField: some View {
+        TextField("Institution", text: $education.institution)
+    }
+
+    var degreeField: some View {
+        TextField("Degree", text: $education.degree)
+    }
+
+    var fieldOfStudyField: some View {
+        TextField("Field of Study", text: $education.fieldOfStudy)
+    }
+
+    var locationField: some View {
+        TextField("Location", text: $education.location)
+    }
+
+    var startDatePicker: some View {
+        DatePicker(
+            "Start Date",
+            selection: $education.startDate,
+            displayedComponents: .date
+        )
+    }
+
+    var endDatePicker: some View {
+        DatePicker(
+            "End Date",
+            selection: Binding(
+                get: { education.endDate ?? Date() },
+                set: { education.endDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var currentlyStudyingToggle: some View {
+        Toggle("Currently Studying", isOn: Binding(
+            get: { education.endDate == nil },
+            set: { isCurrentlyStudying in
+                education.endDate = isCurrentlyStudying ? nil : Date()
+            }
+        ))
     }
 
     var actionButtons: some View {
         HStack(spacing: 20) {
             Spacer()
-
-            Button(action: {
-                moveDownHandler(education)
-            }, label: {
-                Label("Move Down", systemImage: "arrowshape.down")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
-            .disabled(!canMoveDownHandler(education))
-
-            Button(action: {
-                moveUpHandler(education)
-            }, label: {
-                Label("Move Up", systemImage: "arrowshape.up")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
-            .disabled(!canMoveUpHandler(education))
-
-            Button(action: {
-                deleteHandler(education)
-            }, label: {
-                Label("Delete", systemImage: "trash")
-                    .labelStyle(.iconOnly)
-                    .font(.caption)
-            })
+            moveDownButton
+            moveUpButton
+            deleteButton
         }
         .buttonStyle(.plain)
         .foregroundStyle(Color.secondary)
     }
+
+    var moveDownButton: some View {
+        Button(action: moveDown) {
+            Label("Move Down", systemImage: "arrowshape.down")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+        .disabled(!canMoveDown())
+    }
+
+    var moveUpButton: some View {
+        Button(action: moveUp) {
+            Label("Move Up", systemImage: "arrowshape.up")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+        .disabled(!canMoveUp())
+    }
+
+    var deleteButton: some View {
+        Button(action: delete) {
+            Label("Delete", systemImage: "trash")
+                .labelStyle(.iconOnly)
+                .font(.caption)
+        }
+    }
+
+    // MARK: - Private Action Functions
+
+    private func moveDown() {
+        resume.moveDown(education: education)
+    }
+
+    private func canMoveDown() -> Bool {
+        resume.canMoveDown(education: education)
+    }
+
+    private func moveUp() {
+        resume.moveUp(education: education)
+    }
+
+    private func canMoveUp() -> Bool {
+        resume.canMoveUp(education: education)
+    }
+
+    private func delete() {
+        resume.delete(education: education)
+    }
 }
 
 struct AddEducationSection: View {
+    @Environment(Resume.self) private var resume
     @State private var education = Education.empty
-    fileprivate let addHandler: AddHandler
 
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
@@ -189,64 +170,90 @@ struct AddEducationSection: View {
     }()
 
     var body: some View {
-
         Section("Add Education") {
-            TextField("Institution", text: $education.institution)
-
-            TextField("Degree", text: $education.degree)
-
-            TextField("Field of Study", text: $education.fieldOfStudy)
-
-            TextField("Location", text: $education.location)
-
-            DatePicker(
-                "Start Date",
-                selection: $education.startDate,
-                displayedComponents: .date
-            )
+            institutionField
+            degreeField
+            fieldOfStudyField
+            locationField
+            startDatePicker
 
             if education.endDate != nil {
-                DatePicker(
-                    "End Date",
-                    selection: Binding(
-                        get: { education.endDate ?? Date() },
-                        set: { education.endDate = $0 }
-                    ),
-                    displayedComponents: .date
-                )
+                endDatePicker
             }
 
-            Toggle("Currently Studying", isOn: Binding(
-                get: { education.endDate == nil },
-                set: { isCurrentlyStudying in
-                    education.endDate = isCurrentlyStudying ? nil : Date()
-                }
-            ))
+            currentlyStudyingToggle
+            addButtonRow
+        }
+    }
 
+    var institutionField: some View {
+        TextField("Institution", text: $education.institution)
+    }
+
+    var degreeField: some View {
+        TextField("Degree", text: $education.degree)
+    }
+
+    var fieldOfStudyField: some View {
+        TextField("Field of Study", text: $education.fieldOfStudy)
+    }
+
+    var locationField: some View {
+        TextField("Location", text: $education.location)
+    }
+
+    var startDatePicker: some View {
+        DatePicker(
+            "Start Date",
+            selection: $education.startDate,
+            displayedComponents: .date
+        )
+    }
+
+    var endDatePicker: some View {
+        DatePicker(
+            "End Date",
+            selection: Binding(
+                get: { education.endDate ?? Date() },
+                set: { education.endDate = $0 }
+            ),
+            displayedComponents: .date
+        )
+    }
+
+    var currentlyStudyingToggle: some View {
+        Toggle("Currently Studying", isOn: Binding(
+            get: { education.endDate == nil },
+            set: { isCurrentlyStudying in
+                education.endDate = isCurrentlyStudying ? nil : Date()
+            }
+        ))
+    }
+
+    var addButtonRow: some View {
+        HStack(spacing: 20) {
+            Spacer()
             addButton
         }
     }
 
     var addButton: some View {
-        HStack(spacing: 20) {
-            Spacer()
-            Button("Add", systemImage: "plus") {
-                addHandler(education)
-                education = Education.empty // reset
-            }
-            .buttonStyle(.plain)
-            .disabled(education.institution.isEmpty || education.degree.isEmpty)
+        Button(action: add) {
+            Text("Add")
         }
+        .disabled(education.degree.isEmpty)
+    }
+
+
+    // MARK: - Private Action Functions
+
+    private func add() {
+        resume.add(education: education)
+        education = Education.empty
     }
 }
 
 #Preview {
-    EducationForm(collection: EducationCollection.mock)
-}
-
-#Preview {
-    Form {
-        AddEducationSection { _ in }
-    }
-    .formStyle(.grouped)
+    EducationForm()
+        .environment(Resume.mock)
 }

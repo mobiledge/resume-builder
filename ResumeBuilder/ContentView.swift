@@ -102,7 +102,7 @@ struct NavigationContentView: View {
             WorkExperienceForm()
 
         case .education:
-            EducationForm(collection: resume.educationCollection)
+            EducationForm()
         }
     }
 }

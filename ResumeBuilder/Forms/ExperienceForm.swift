@@ -244,14 +244,6 @@ struct AddExperienceSection: View {
         resume.add(experience: experience)
         experience = WorkExperience.empty
     }
-
-    private func canAdd() -> Bool {
-        return !experience.companyName.isEmpty
-    }
-
-    private func resetExperience() {
-
-    }
 }
 
 #Preview {

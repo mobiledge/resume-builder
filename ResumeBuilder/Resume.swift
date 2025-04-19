@@ -126,6 +126,48 @@ import PDFKit
         }
         workExperienceCollection.items.swapAt(index, index + 1)
     }
+
+
+    // MARK: - Resume + Education
+    func delete(education: Education) {
+        educationCollection.items.removeAll { $0.id == education.id }
+    }
+
+    func add(education: Education) {
+        educationCollection.items.append(education)
+    }
+
+    func canMoveUp(education: Education) -> Bool {
+        // Check if the workExperience exists in the array and is not the first item
+        guard let index = educationCollection.items.firstIndex(where: { $0.id == education.id }) else {
+            return false
+        }
+        return index > 0
+    }
+
+    func moveUp(education: Education) -> Void {
+        guard let index = educationCollection.items.firstIndex(where: { $0.id == education.id }),
+              canMoveUp(education: education) else {
+            return
+        }
+        educationCollection.items.swapAt(index, index - 1)
+    }
+
+    func canMoveDown(education: Education) -> Bool {
+        // Check if the workExperience exists in the array and is not the last item
+        guard let index = educationCollection.items.firstIndex(where: { $0.id == education.id }) else {
+            return false
+        }
+        return index < educationCollection.items.count - 1
+    }
+
+    func moveDown(education: Education) -> Void {
+        guard let index = educationCollection.items.firstIndex(where: { $0.id == education.id }),
+              canMoveDown(education: education) else {
+            return
+        }
+        educationCollection.items.swapAt(index, index + 1)
+    }
 }
 
 @Observable class PersonalInfo {

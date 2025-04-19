@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct PersonalInfoForm: View {
-    @Environment(PersonalInfo.self) private var personalInfo
+
+    @Environment(Resume.self) private var resume
+
     var body: some View {
         Form {
-            PersonalInfoSection(personalInfo: personalInfo)
-            PersonalInfoSummarySection(personalInfo: personalInfo)
+            PersonalInfoSection(personalInfo: resume.personalInfo)
+            PersonalInfoSummarySection(personalInfo: resume.personalInfo)
         }
         .formStyle(.grouped)
     }

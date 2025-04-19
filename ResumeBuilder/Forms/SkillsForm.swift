@@ -2,18 +2,17 @@ import SwiftUI
 
 struct SkillsForm: View {
 
-    @Environment(SkillCollection.self) private var skills
+    @Environment(Resume.self) private var resume
 
     var body: some View {
         Form {
-            ForEach(skills.items) { skill in
+            ForEach(resume.skills.items) { skill in
                 SkillSection(skill: skill)
             }
 
             AddSkillSection()
         }
         .formStyle(.grouped)
-        .animation(.spring(duration: 0.3), value: skills.items) // Animate when items array changes
     }
 }
 

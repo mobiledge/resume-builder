@@ -92,11 +92,9 @@ struct NavigationContentView: View {
 
         case .personalInfo:
             PersonalInfoForm()
-                .environment(resume.personalInfo)
 
         case .skills:
             SkillsForm()
-                .environment(resume.skills)
 
         case .experience:
             WorkExperienceForm()

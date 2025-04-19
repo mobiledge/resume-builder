@@ -2,19 +2,18 @@ import SwiftUI
 
 struct WorkExperienceForm: View {
 
-    @Environment(WorkExperienceCollection.self) var collection
+    @Environment(Resume.self) var resume
 
     var body: some View {
 
         Form {
-            ForEach(collection.items) { exp in
+            ForEach(resume.workExperienceCollection.items) { exp in
                 WorkExperienceSection(experience: exp)
             }
 
             AddExperienceSection()
         }
         .formStyle(.grouped)
-        .animation(.spring(duration: 0.3), value: collection.items) // Animate when items array changes
     }
 }
 
@@ -258,5 +257,4 @@ struct AddExperienceSection: View {
 #Preview {
     WorkExperienceForm()
         .environment(Resume.mock)
-        .environment(Resume.mock.workExperienceCollection)
 }

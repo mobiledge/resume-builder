@@ -11,10 +11,10 @@ import PDFKit
 @Observable class Resume {
 
 
-    var personalInfo = PersonalInfo.mock
-    var skills = SkillCollection.mock
-    var workExperienceCollection = WorkExperienceCollection.mock
-    var educationCollection = EducationCollection.mock
+    var personalInfo: PersonalInfo
+    var skills: SkillCollection
+    var workExperienceCollection: WorkExperienceCollection
+    var educationCollection: EducationCollection
 
     init(
         personalInfo: PersonalInfo,
@@ -195,6 +195,11 @@ import PDFKit
     }
 }
 
+var dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    return dateFormatter
+}()
 
 @Observable class WorkExperienceCollection {
     var items: [WorkExperience]
@@ -203,49 +208,44 @@ import PDFKit
         self.items = items
     }
 
-    static var mock: WorkExperienceCollection {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        return WorkExperienceCollection(items: [
-            WorkExperience(
-                companyName: "Tech Innovations Inc.",
-                position: "Senior Software Engineer",
-                location: "San Francisco, CA",
-                startDate: dateFormatter.date(from: "2022-03-15"),
-                endDate: nil,
-                isCurrentPosition: true,
-                description: "Leading a team of 5 engineers developing iOS applications. Implemented CI/CD pipelines that reduced deployment time by 40%. Architected and developed a new feature that increased user engagement by 25%."
-            ),
-            WorkExperience(
-                companyName: "Mobile Solutions Ltd.",
-                position: "iOS Developer",
-                location: "Austin, TX",
-                startDate: dateFormatter.date(from: "2019-06-01"),
-                endDate: dateFormatter.date(from: "2022-03-01"),
-                isCurrentPosition: false,
-                description: "Developed and maintained multiple iOS applications using Swift and UIKit. Collaborated with design team to implement user-friendly interfaces. Reduced app crash rate by 75% through comprehensive testing and debugging."
-            ),
-            WorkExperience(
-                companyName: "StartUp Ventures",
-                position: "Junior Developer",
-                location: "Boston, MA",
-                startDate: dateFormatter.date(from: "2017-09-12"),
-                endDate: dateFormatter.date(from: "2019-05-15"),
-                isCurrentPosition: false,
-                description: "Assisted in the development of iOS and Android applications. Implemented RESTful API integrations. Participated in daily scrums and bi-weekly sprint planning meetings."
-            ),
-            WorkExperience(
-                companyName: "Code Academy",
-                position: "Intern",
-                location: "Remote",
-                startDate: dateFormatter.date(from: "2017-01-10"),
-                endDate: dateFormatter.date(from: "2017-08-30"),
-                isCurrentPosition: false,
-                description: "Assisted senior developers with bug fixes and testing. Learned Swift programming and iOS development principles. Created a small utility application as a final project."
-            )
-        ])
-    }
+    static var mock = WorkExperienceCollection(items: [
+        WorkExperience(
+            companyName: "Tech Innovations Inc.",
+            position: "Senior Software Engineer",
+            location: "San Francisco, CA",
+            startDate: dateFormatter.date(from: "2022-03-15"),
+            endDate: nil,
+            isCurrentPosition: true,
+            description: "Leading a team of 5 engineers developing iOS applications. Implemented CI/CD pipelines that reduced deployment time by 40%. Architected and developed a new feature that increased user engagement by 25%."
+        ),
+        WorkExperience(
+            companyName: "Mobile Solutions Ltd.",
+            position: "iOS Developer",
+            location: "Austin, TX",
+            startDate: dateFormatter.date(from: "2019-06-01"),
+            endDate: dateFormatter.date(from: "2022-03-01"),
+            isCurrentPosition: false,
+            description: "Developed and maintained multiple iOS applications using Swift and UIKit. Collaborated with design team to implement user-friendly interfaces. Reduced app crash rate by 75% through comprehensive testing and debugging."
+        ),
+        WorkExperience(
+            companyName: "StartUp Ventures",
+            position: "Junior Developer",
+            location: "Boston, MA",
+            startDate: dateFormatter.date(from: "2017-09-12"),
+            endDate: dateFormatter.date(from: "2019-05-15"),
+            isCurrentPosition: false,
+            description: "Assisted in the development of iOS and Android applications. Implemented RESTful API integrations. Participated in daily scrums and bi-weekly sprint planning meetings."
+        ),
+        WorkExperience(
+            companyName: "Code Academy",
+            position: "Intern",
+            location: "Remote",
+            startDate: dateFormatter.date(from: "2017-01-10"),
+            endDate: dateFormatter.date(from: "2017-08-30"),
+            isCurrentPosition: false,
+            description: "Assisted senior developers with bug fixes and testing. Learned Swift programming and iOS development principles. Created a small utility application as a final project."
+        )
+    ])
 }
 
 @Observable class WorkExperience: Identifiable, Equatable {
@@ -276,16 +276,7 @@ import PDFKit
         self.description = description
     }
 
-    static var mock: WorkExperience {
-        WorkExperience(
-            companyName: "Apple Inc.",
-            position: "iOS Developer",
-            location: "Cupertino, CA",
-            startDate: Calendar.current.date(from: DateComponents(year: 2020, month: 6, day: 1)),
-            isCurrentPosition: true,
-            description: "• Developed and maintained multiple iOS applications using Swift and UIKit\n• Collaborated with design and product teams to create intuitive user interfaces\n• Implemented new features and fixed bugs in existing applications"
-        )
-    }
+    static var mock: WorkExperience  = WorkExperienceCollection.mock.items[0]
 
     static var empty: WorkExperience {
         WorkExperience(

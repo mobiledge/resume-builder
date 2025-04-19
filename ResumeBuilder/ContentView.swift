@@ -100,7 +100,6 @@ struct NavigationContentView: View {
 
         case .experience:
             WorkExperienceForm()
-                .environment(resume.educationCollection)
 
         case .education:
             EducationForm(collection: resume.educationCollection)
